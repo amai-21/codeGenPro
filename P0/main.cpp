@@ -1,6 +1,6 @@
 //main.cpp
 #include <iostream>
-#include <fstream>
+#include <fstream> // For handling an input file from within the command line.
 #include "buildTree.h"
 
 using namespace std;
