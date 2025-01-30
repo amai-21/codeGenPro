@@ -5,17 +5,17 @@ CC = g++
 CFLAGS = -g -Wall -std=c++11 
 
 #Target executable
-P0: prog.o buildTree.o
-	$(CC) $(CFLAGS) -o targetExecutable prog.o
+P0: main.o buildTree.o
+	$(CC) $(CFLAGS) -o P0 main.o buildTree.o
 
 #Object file target
-prog.o: prog.cpp
-	$(CC) $(CFLAGS) -c prog.cpp
+main.o: main.cpp buildTree.h
+	$(CC) $(CFLAGS) -c main.cpp
 
 buildTree.o: buildTree.cpp buildTree.h
 	$(CC) $(CFLAGS) -c buildTree.cpp
 
 #clean rule:
 clean:
-	rm -f *.o targetExecutable
+	rm -f *.o P0
 
