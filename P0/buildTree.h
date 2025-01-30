@@ -2,6 +2,6 @@
 #ifndef BUILDTREE_H
 #define BUILDTREE_H
 
-node_t* buildTree(FILE *);
+//node_t* buildTree(FILE *);
 
 #endif

@@ -5,7 +5,11 @@
 using namespace std;
 
 int main(int argc, char* argv[]){
-	printf("Hello world!");
+	
+	//Command line argument for if file was provided
+	if (argc > 1) {
+		
+	}
 
 	return 0;
 }
