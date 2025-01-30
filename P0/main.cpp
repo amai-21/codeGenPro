@@ -1,5 +1,6 @@
 //main.cpp
 #include <iostream>
+#include <fstream>
 #include "buildTree.h"
 
 using namespace std;
@@ -8,7 +9,14 @@ int main(int argc, char* argv[]){
 	
 	//Command line argument for if file was provided
 	if (argc > 1) {
-		
+		ifstream filename(argv[1]);
+
+		//Test for handling a filename argument
+		//string testString;
+		//while (getline (filename, testString)) {
+		//	cout << testString;
+		//}
+		filename.close();
 	}
 
 	return 0;
