@@ -18,7 +18,7 @@ int main(int argc, char* argv[]){
 		//}
 		filename.close();
 	} else if(argv == 1) { // Read from keyboard until simulated keyboard EOF
-		
+		ofstream tempFilename("tempFile.txt");		
 	}
 
 	return 0;

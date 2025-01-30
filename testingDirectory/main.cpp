@@ -18,6 +18,30 @@ int main(int argc, char* argv[]){
 	}
 	//cout << argv[0];
 	
+	//Testing creating files and writing input text into a file:
+	if (argc == 1){
+		ofstream MyFile("creatingTestFile.txt");
+		cout << "Enter some text and we will write the text into 'creatingTestFile.txt'";
+		//cin >> myText;
+		
+		int counter = 1;
+		while (argv[counter] != '\0') {
+			counter++;
+			getline(cin, argv[counter]);
+
+		}
+
+		//test cases:
+		int counter2 = 1;
+		while ()
+
+		//MyFile << myText;
+
+		//cout << myText;
+	}
+
+
+
 	
 	return 0;
 }
