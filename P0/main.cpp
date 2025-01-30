@@ -17,6 +17,8 @@ int main(int argc, char* argv[]){
 		//	cout << testString;
 		//}
 		filename.close();
+	} else if(argv == 1) { // Read from keyboard until simulated keyboard EOF
+		
 	}
 
 	return 0;
