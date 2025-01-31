@@ -19,12 +19,20 @@ int main(int argc, char* argv[]){
 		//}
 		filename.close();
 	} else if(argc == 1) { // Read from keyboard until simulated keyboard EOF
-		ofstream tempFilename("tempFile.txt");
+		ofstream tempFilename("keyboardInputFile.txt");
 		string keyboardReadingText;
+		
+		
+		cout << "Enter a string. To stop, please press 'CTRL + D': ";
+		while(getline(cin, keyboardReadingText)){ 
+			cout << "Enter another string or press 'CTRL + D' to quit: ";
 
-		while(getline() != EOF){
-			getline(cin, keyboardReadingText);
+			tempFilename << keyboardReadingText;
+			tempFilename << " "; // To delimit words by one space.	
 		}
+	
+		
+
 	}
 
 	return 0;
