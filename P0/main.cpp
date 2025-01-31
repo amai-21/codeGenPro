@@ -8,7 +8,7 @@ using namespace std;
 
 int main(int argc, char* argv[]){
 	//Command line argument for if file was provided - Read from the file.
-	if (argc > 1) { //Resource: W3 Schools - C++ Files
+	if (argc == 2) { //Resource: W3 Schools - C++ Files
 		ifstream filename(argv[1]);
 
 		//Test for handling a filename argument
