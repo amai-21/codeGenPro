@@ -7,8 +7,7 @@
 using namespace std;
 
 int main(int argc, char* argv[]){
-	
-	//Command line argument for if file was provided
+	//Command line argument for if file was provided - Read from the file.
 	if (argc > 1) { //Resource: W3 Schools - C++ Files
 		ifstream filename(argv[1]);
 
@@ -30,9 +29,16 @@ int main(int argc, char* argv[]){
 			tempFilename << keyboardReadingText;
 			tempFilename << " "; // To delimit words by one space.	
 		}
-	
-		
-
+		//TODO: Read from tempFilename. If there are more than three strings, display an error message and quit.
+	} else if(argc > 2) { // If user input 3 or more strings, display an error:
+		cout << "P0 ";
+		for (int i = 0; i < argc - 1; i++) {
+			cout << "file" << (i + 1) << " ";
+		}
+		cout << endl;
+		cout << "Fatal: Improper usage" <<endl;
+		cout << "Usage: P0 [filename]" << endl;
+		exit(0);
 	}
 
 	return 0;
