@@ -3,6 +3,7 @@
 #include <fstream> // For handling an input file from within the command line.
 #include <string> // For using getline(), specifically for handling keyboard input from the command line.
 #include <cctype> // For using isalnum() function to check if a character string is a letter or number.
+#include <string>
 #include "buildTree.h"
 
 using namespace std;
@@ -10,13 +11,13 @@ using namespace std;
 int main(int argc, char* argv[]){
 
 	//----------------------------Handling Command Line Arguments----------------------------------------------------------------------------->
-	
+
 	//Declare a file object for reading:
 	ifstream fileName;
 
 	//Command line argument for if file was provided - Read from the file.
 	if (argc == 2) { //Resource: W3 Schools - C++ Files
-		//ifstream filename(argv[1]);
+			 //ifstream filename(argv[1]);
 		fileName.open(argv[1]);
 		//Test for handling a filename argument
 		//string testString;
@@ -25,29 +26,63 @@ int main(int argc, char* argv[]){
 		//}
 
 		//TODO traverse through the file. If there is a non-approved character, abort the program and display an appropriate error message.
-		string fileNameString; 
-		while(getline(fileName, fileNameString)) {
-			if (!isalnum(fileNameString) || fileNameString < 33 || fileNameString > 43) {
-				cout << "Detected a character that wasn't valid." << endl;
-				cout << "Character: " << fileNameString << endl;
-				cout << "Program will now abort." << endl;
-				exit(0);
-			}
-		}
-		
+		string fileNameString;
+
+
+		//char charArray[arraySize];
+		//int arraySize = 0;
+		//while (getline (fileName, fileNameString)) {
+		//	for (size_t i = 0; i < fileNameString.length(); i++) {
+		//		arraySize++;
+
+		//	}
+		//}
+
+		//char charArray[arraySize];
+		//while (getline (fileName, fileNameString)) {
+		//	for (size_t i = 0; i < fileNameString.length(); i++){
+		//		charArray[i] = fileNameString[i];
+		//	}
+		//}
+		// Test to see if the nested array input into charArray properly.
+		//cout << "Checking charArray";
+		//for (int i = 0; i < arraySize; i++) {
+		//	cout << charArray[i] << endl;
+		//}
+
+
+		//string fileNameString; 
+		//while(getline(fileName, fileNameString)) {
+		//	if (!isalnum(fileNameString) || fileNameString < 33 || fileNameString > 43) {
+		//		cout << "Detected a character that wasn't valid." << endl;
+		//		cout << "Character: " << fileNameString << endl;
+		//		cout << "Program will now abort." << endl;
+		//		exit(0);
+		//	}
+		//}
+
 	} else if(argc == 1) { // Read from keyboard until simulated keyboard EOF
 		ofstream tempFilename("keyboardInputFile.txt");
 		string keyboardReadingText;
-		
-		
+
+
 		cout << "Enter a string. To stop, please press 'CTRL + D': ";
 		while(getline(cin, keyboardReadingText)){ 
 			cout << "Enter another string or press 'CTRL + D' to quit: ";
-			//TODO Check if the keyboard input is an approved character string. If it isn't, then abort the program and display an appropriate error message.
 
-			tempFilename << keyboardReadingText;
-			tempFilename << " "; // To delimit words by one space.	
+			for (char c: keyboardReadingText) {
+				if (isalnum(c) || (c >= 33 && c <= 43)){ 
+				}
+				else{
+					cout << "Not an approved character." << endl;
+					cout << "Character: " << c << endl;
+					exit(0);
+				}
+			}
 		}
+
+
+
 	} else if(argc > 2) { // If user input 3 or more strings, display an error:
 		cout << "P0 ";
 		for (int i = 0; i < argc - 1; i++) {
@@ -61,7 +96,7 @@ int main(int argc, char* argv[]){
 
 	fileName.close();
 	//-----------------------------------------------------Input Data Validation---------------------------------------------------------------->
-	
+
 
 	return 0;
 }
