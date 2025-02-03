@@ -19,47 +19,12 @@ int main(int argc, char* argv[]){
 	if (argc == 2) { //Resource: W3 Schools - C++ Files
 			 //ifstream filename(argv[1]);
 		fileName.open(argv[1]);
-		//Test for handling a filename argument
-		//string testString;
-		//while (getline (fileName, testString)) {
-		//	cout << testString;
-		//}
-
-		//TODO traverse through the file. If there is a non-approved character, abort the program and display an appropriate error message.
 		string fileNameString;
 
-
-		//char charArray[arraySize];
-		//int arraySize = 0;
-		//while (getline (fileName, fileNameString)) {
-		//	for (size_t i = 0; i < fileNameString.length(); i++) {
-		//		arraySize++;
-
-		//	}
-		//}
-
-		//char charArray[arraySize];
-		//while (getline (fileName, fileNameString)) {
-		//	for (size_t i = 0; i < fileNameString.length(); i++){
-		//		charArray[i] = fileNameString[i];
-		//	}
-		//}
-		// Test to see if the nested array input into charArray properly.
-		//cout << "Checking charArray";
-		//for (int i = 0; i < arraySize; i++) {
-		//	cout << charArray[i] << endl;
-		//}
-
-
-		//string fileNameString; 
-		//while(getline(fileName, fileNameString)) {
-		//	if (!isalnum(fileNameString) || fileNameString < 33 || fileNameString > 43) {
-		//		cout << "Detected a character that wasn't valid." << endl;
-		//		cout << "Character: " << fileNameString << endl;
-		//		cout << "Program will now abort." << endl;
-		//		exit(0);
-		//	}
-		//}
+		//TODO Input data validation
+		while(getline(fileName, fileNameString)){
+			
+		}
 
 	} else if(argc == 1) { // Read from keyboard until simulated keyboard EOF
 		ofstream tempFilename("keyboardInputFile.txt");
