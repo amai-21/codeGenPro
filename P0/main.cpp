@@ -3,7 +3,7 @@
 #include <fstream> // For handling an input file from within the command line.
 #include <string> // For using getline(), specifically for handling keyboard input from the command line.
 #include <cctype> // For using isalnum() function to check if a character string is a letter or number.
-#include <string>
+#include <string> 
 #include "buildTree.h"
 
 using namespace std;
@@ -23,7 +23,15 @@ int main(int argc, char* argv[]){
 
 		//TODO Input data validation
 		while(getline(fileName, fileNameString)){
-			
+			for (char c : fileNameString) {
+				if (isalnum(c) || (c >= 33 && c <= 43) || isspace(c)) {
+					// Do nothing.
+				} else {
+					cout << "Not an approved character." << endl;
+					cout << "Character: " << c << endl;
+					exit(0);
+				}
+			}
 		}
 
 	} else if(argc == 1) { // Read from keyboard until simulated keyboard EOF
@@ -36,7 +44,8 @@ int main(int argc, char* argv[]){
 			cout << "Enter another string or press 'CTRL + D' to quit: ";
 
 			for (char c: keyboardReadingText) {
-				if (isalnum(c) || (c >= 33 && c <= 43)){ 
+				if (isalnum(c) || (c >= 33 && c <= 43) || isspace(c)){
+					//Do nothing.
 				}
 				else{
 					cout << "Not an approved character." << endl;
