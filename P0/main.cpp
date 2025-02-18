@@ -5,6 +5,8 @@
 #include <cctype> // For using isalnum() function to check if a character string is a letter or number.
 #include <string> 
 #include "buildTree.h"
+#include "node.h"
+#include "traversals.h"
 
 using namespace std;
 

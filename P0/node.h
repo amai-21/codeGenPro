@@ -1,19 +1,19 @@
 //node.h
 #ifndef NODE_H
 #define NODE_H
+#include <string>
+#include <vector>
 
+using namespace std;
 
-//Declaring node types code found from Geeksforgeeks.com: https://www.geeksforgeeks.org/introduction-to-binary-tree/
-struct node_t{
-	int data;
+struct node_t {
+	string data;
+	vector<string> stringsSeen; // A list (vector) of strings already seen that have the same number of characters.
+	int charCount; // The number of characters in the string.
 	
-	node_t * left, * right;
-	node_t (int key) {
-		data = key;
-		left = nullptr;
-		right = nullptr;
-	}
-
+	// Two child nodes (left and right)
+	node_t *left;
+        node_t *right; 	
 	
 };
 
