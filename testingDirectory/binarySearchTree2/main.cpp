@@ -33,7 +33,10 @@ int main(int argc, char* argv[]){
 
 	// while loop when calling Insert function.
 
-
+	ofstream file("words.txt");
+	
+	file << s1;
+	file << s2;
 	root = Insert(root, s1, s1.size());
 //	cout << "character count of cad: " << root->charCount << endl;
 	root = Insert(root, "fadf", s2.size());

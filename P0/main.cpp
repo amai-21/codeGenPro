@@ -14,38 +14,43 @@ int main(int argc, char* argv[]){
 
 	//----------------------------Handling Command Line Arguments----------------------------------------------------------------------------->
 
-	//Declare a file object for reading:
-	ifstream fileName;
-	
+	//Create a temporary file object for writing:
+	ofstream tempFileName("temporaryFile.txt");
+
 	//Command line argument for if file was provided - Read from the file.
 	if (argc == 2) { //Resource: W3 Schools - C++ Files
 			 //ifstream filename(argv[1]);
-		fileName.open(argv[1]);
+		ifstream fileName(argv[1]);
 		string fileNameString;
 
-		//TODO Input data validation
 		while(getline(fileName, fileNameString)){
 			for (char c : fileNameString) {
 				if (isalnum(c) || (c >= 33 && c <= 43) || isspace(c)) {
+				//	tempFileName2 << fileNameString;
 				} else {
 					cout << "Not an approved character." << endl;
 					cout << "Character: " << c << endl;
 					exit(0);
 				}
 			}
+			tempFileName << fileNameString << " ";
+
+		
 		}
 
-	} else if(argc == 1) { // Read from keyboard until simulated keyboard EOF
-		ofstream tempFileName("keyboardInputFile.txt");
-		string keyboardReadingText;
+		fileName.close();
+		tempFileName.close();
 
+
+	} else if(argc == 1) { // Read from keyboard until simulated keyboard EOF
+		string keyboardReadingText;
 
 		cout << "Enter a string. To stop, please press 'CTRL + D': ";
 		while(getline(cin, keyboardReadingText)){ 
 			cout << "Enter another string or press 'CTRL + D' to quit: ";
 			for (char c: keyboardReadingText) {
 				if (isalnum(c) || (c >= 33 && c <= 43) || isspace(c)){
-					tempFileName << c << " ";
+				//	tempFileName << c << " ";
 				}
 				else{
 					cout << "Not an approved character." << endl;
@@ -53,9 +58,10 @@ int main(int argc, char* argv[]){
 					exit(0);
 				}
 			}
+			tempFileName << keyboardReadingText << " ";
 		}
 
-
+		tempFileName.close();
 
 	} else if(argc > 2) { // If user input 3 or more strings, display an error:
 		cout << "P0 ";
@@ -67,11 +73,6 @@ int main(int argc, char* argv[]){
 		cout << "Usage: P0 [filename]" << endl;
 		exit(0);
 	}
-
-
-
-	fileName.close();
-	
 
 	return 0;
 }
