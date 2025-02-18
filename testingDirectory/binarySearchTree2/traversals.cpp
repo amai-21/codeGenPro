@@ -9,7 +9,7 @@ using namespace std;
 
 // Learned about the queuing approach through a Youtube video called "Binary tree: Level Order Traversal" by a channel called "mycodeschool".
 // https://www.youtube.com/watch?v=86g8jAQug04
-void LevelOrder(BstNode *root, int treeLevel){
+void LevelOrder(BstNode *root, int treeLevel, const char[]){
 	if (root == NULL) return; // Base case.
 
 	int indentationLevel = treeLevel * 4;
@@ -39,25 +39,7 @@ void LevelOrder(BstNode *root, int treeLevel){
 		}
 
 		treeLevel++;
-	//	indentationLevel = treeLevel * 4;
-	//	string indentation(indentationLevel, ' ');
 	}
-
-	// While there is at least one discovered node
-//	while(!Q.empty()) {
-//		BstNode* current = Q.front(); // Take out a node from the front.
-//		cout << current->data<< " ";
-
-//		if (current->left != NULL) {
-//			Q.push(current->left);
-//		}
-//		if (current->right != NULL) {
-//			Q.push(current->right);
-//		}
-
-//		Q.pop(); // Removing the element at front.
-
-//	}
 
 }
 
@@ -71,7 +53,7 @@ void PreOrder(BstNode *root, int treeLevel){
 	string indentation(indentationLevel, ' ');
 
 
-	cout << indentation << treeLevel << ' ' << root->data << endl; 
+	cout << indentation << treeLevel << ' ' << root->charCount << ' ' <<  root->data << endl; 
 	cout << endl;
 
 	PreOrder(root->left, treeLevel + 1);

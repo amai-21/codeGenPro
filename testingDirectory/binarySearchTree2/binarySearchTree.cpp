@@ -1,24 +1,31 @@
 // binarySearchTree.cpp
 #include <iostream>
+#include <string>
 #include "binarySearchTree.h"
 #include "node.h"
 
-BstNode* GetNewNode(int data) {
+BstNode* GetNewNode(string data, int charCount) {
 	BstNode* newNode = new BstNode();
 	newNode->data = data;
+	newNode->charCount = charCount;
 	newNode->left = newNode->right = NULL;
 	return newNode;
 }
 
-BstNode* Insert(BstNode* root, int data) { // empty tree
-	if (root == NULL) {
-		root = GetNewNode(data);
+BstNode* Insert(BstNode* root, string data, int charCount) { // empty tree
+	if (root == NULL) { 
+//		root->charCount = data.size();
+//		cout << "Root node Character Count: " << data.size();
+		root = GetNewNode(data, charCount);
+
 	}
 	else if (data <= root->data) {
-		root->left = Insert(root->left, data);
+		root->charCount = data.size();		
+		root->left = Insert(root->left, data, root->charCount);
 	}
 	else {
-		root->right = Insert(root->right, data);
+		root->charCount = data.size();	
+		root->right = Insert(root->right, data,root->charCount);
 	}
 	return root;
 }
