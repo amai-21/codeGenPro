@@ -28,12 +28,18 @@ int main(int argc, char* argv[]){
 	string s2 = "fadf";
 	string s3 = "baaaaad";
 
+
+	// while loop when calling Insert function.
+
+
 	root = Insert(root, s1, s1.size());
 //	cout << "character count of cad: " << root->charCount << endl;
 	root = Insert(root, "fadf", s2.size());
 //	cout << "character count of fadf: " << root->charCount << endl;
 	root = Insert(root, "baaaaad", s3.size());
 //	cout << "character count of baaaad: " << root->charCount << endl;
+
+
 //	root = Insert(root,"bad", charCount);
 //	root = Insert(root, "crad", charCount);
 //	root = Insert(root, "lad", charCount);

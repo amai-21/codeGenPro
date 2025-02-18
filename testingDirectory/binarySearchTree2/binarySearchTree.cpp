@@ -14,18 +14,19 @@ BstNode* GetNewNode(string data, int charCount) {
 
 BstNode* Insert(BstNode* root, string data, int charCount) { // empty tree
 	if (root == NULL) { 
-//		root->charCount = data.size();
-//		cout << "Root node Character Count: " << data.size();
+		charCount = data.size();
+//		cout << "Root node Character Count: " << data.size() << endl;
+//		cout << data;
 		root = GetNewNode(data, charCount);
 
 	}
 	else if (data <= root->data) {
-		root->charCount = data.size();		
-		root->left = Insert(root->left, data, root->charCount);
+	//	root->charCount = data.size();			
+		root->left = Insert(root->left, data, charCount);
 	}
 	else {
-		root->charCount = data.size();	
-		root->right = Insert(root->right, data,root->charCount);
+	//	root->charCount = data.size();	
+		root->right = Insert(root->right, data, charCount);
 	}
 	return root;
 }
