@@ -2,11 +2,12 @@
 #ifndef TRAVERSALS_H
 #define TRAVERSALS_H
 #include <vector>
+#include <string> // using string::size_type to avoid complications with comparing ints and unsigned ints.
 #include "node.h"
 
-void LevelOrder(BstNode *root, int treeLevel);
-void levelOrderRec(BstNode *root, int treeLevel, vector<vector<string>>& res);
-void PreOrder(BstNode *root, int treeLevel);
-void PostOrder(BstNode *root, int treeLevel);
+vector<vector<string>> LevelOrder(BstNode *root, string::size_type treeLevel);
+void levelOrderRec(BstNode *root, string::size_type treeLevel, vector<vector<string>>& res);
+void PreOrder(BstNode *root, string::size_type treeLevel);
+void PostOrder(BstNode *root, string::size_type treeLevel);
 
 #endif

@@ -27,7 +27,9 @@ int main(int argc, char* argv[]){
 	string s1 = "cad";
 	string s2 = "fadf";
 	string s3 = "baaaaad";
-
+	string s4 = "Hello";
+	string s5 = "Sad";
+	string s6 = "Strad";
 
 	// while loop when calling Insert function.
 
@@ -38,7 +40,9 @@ int main(int argc, char* argv[]){
 //	cout << "character count of fadf: " << root->charCount << endl;
 	root = Insert(root, "baaaaad", s3.size());
 //	cout << "character count of baaaad: " << root->charCount << endl;
-
+	root = Insert(root, s4, s4.size());
+	root = Insert(root, s5, s5.size());
+	root = Insert(root, s6, s6.size());
 
 //	root = Insert(root,"bad", charCount);
 //	root = Insert(root, "crad", charCount);
@@ -53,7 +57,7 @@ int main(int argc, char* argv[]){
 	cout << "<------------------------------------------------------->" << endl << "Postorder tree printing." << endl;
 	PostOrder(root, treeLevel);
 	cout << "<------------------------------------------------------->" << endl << "Level Order tree printing." << endl;
-//	LevelOrder(root, treeLevel, levelOrderFile);
+	LevelOrder(root, treeLevel);
 
 //	cout << root->data;
 

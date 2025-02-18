@@ -15,8 +15,6 @@ BstNode* GetNewNode(string data, int charCount) {
 BstNode* Insert(BstNode* root, string data, int charCount) { // empty tree
 	if (root == NULL) { 
 		charCount = data.size();
-//		cout << "Root node Character Count: " << data.size() << endl;
-//		cout << data;
 		root = GetNewNode(data, charCount);
 
 	}
