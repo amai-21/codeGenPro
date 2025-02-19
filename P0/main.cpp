@@ -19,9 +19,12 @@ int main(int argc, char* argv[]){
 	if (argc == 2) { //Resource: W3 Schools - C++ Files
 			 //ifstream filename(argv[1]);
 		ifstream fileName(argv[1]);
-	//	fstream fileName;
-	//	fileName.open(argv[1], ios::in | ios::out);
-		
+
+		if (fileName.peek() == EOF) {
+			cout << "Error: Missing Data." << endl;
+			exit(0);
+		}
+
 		string fileNameString;
 		
 		if (!fileName) {
@@ -35,15 +38,13 @@ int main(int argc, char* argv[]){
 				if (isalnum(c) || (c >= 33 && c <= 43) || isspace(c)) {
 				//	tempFileName2 << fileNameString;
 				} else {
-					cout << "Not an approved character." << endl;
+					cout << "ERROR!!! Not an approved character." << endl;
 					cout << "Character: " << c << endl;
 					exit(0);
 				}
-			}
-//			tempFileName << fileNameString << " ";
-			
+			}	
 		}
-
+		
 		// Reset the pointer from previous getline() usage so the subsequent getline() will run.
 		fileName.clear();
 		fileName.seekg(0);
@@ -108,7 +109,7 @@ int main(int argc, char* argv[]){
 				//	tempFileName << c << " ";
 				}
 				else{
-					cout << "Not an approved character." << endl;
+					cout << "ERROR!! Not an approved character." << endl;
 					cout << "Character: " << c << endl;
 					exit(0);
 				}
