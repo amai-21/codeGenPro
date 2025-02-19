@@ -9,9 +9,7 @@
 
 void levelOrderRec(node_t* root, string::size_type treeLevel, vector<vector<string>>& res, ofstream &outputFile); // Helper function for recursive level order traversal. 
 vector<vector<string>> traverseLevelOrder(node_t* root, string::size_type treeLevel, ofstream &outputFile);
-//string::size_type height(node_t* root);
-//void printGivenLevel(node_t* root, string::size_type treeLevel, vector<string> &levelNodes);
 void traversePreOrder(node_t* root, string::size_type treeLevel, ofstream &outputFile);
-void traversePostOrder(node_t* root, string::size_type treeLevel);
+void traversePostOrder(node_t* root, string::size_type treeLevel, ofstream &outputFile);
 
 #endif

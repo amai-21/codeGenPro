@@ -75,14 +75,20 @@ int main(int argc, char* argv[]){
 			root = Insert(root, buildTreeFromFileString, charCount, stringsSeen);
 		}	
 		
-		// Preorder traversal call.
+		// Pre Order Traversal call:
+		cout << "Preorder traversal: <---------------------------------------------->" << endl; 
 		const string::size_type treeLevel = 0;
-
 		ofstream p0FilePreOrder("p0File.preorder");
 		traversePreOrder(root, treeLevel, p0FilePreOrder);
 		p0FilePreOrder.close();
+		
+		// Post Order Traversal call:
+		cout << "Postorder traversal: <--------------------------------------------->" << endl; 
+		ofstream p0FilePostOrder("p0File.postorder");
+		traversePostOrder(root, treeLevel, p0FilePostOrder);
+		p0FilePostOrder.close();
 
-		// Level Order Traversal call.
+		// Level Order Traversal call:
 		cout << "Level Order Traversals: <----------------------------------->" << endl;
 		ofstream p0FileLevelOrder("p0File.levelorder");
 	       	traverseLevelOrder(root, treeLevel, p0FileLevelOrder);	
