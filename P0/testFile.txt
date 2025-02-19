@@ -1,2 +1,5 @@
 This is a test file called testFileDottxt
 My name is Andy Mai
+I Like to code
+You are awesome
+We are cool!!!!

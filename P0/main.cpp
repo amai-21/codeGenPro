@@ -48,28 +48,33 @@ int main(int argc, char* argv[]){
 		// list of strings already seen:
 		vector<string> stringsSeen; 
 		string readIntoVectorWords;
-	       	int i = 0;	
 		while (fileName >> readIntoVectorWords) {
 			stringsSeen.push_back(readIntoVectorWords);
 		}	
 		
-		
-
-
+		fileName.clear();
+		fileName.seekg(0);
 		node_t* root = NULL; // Create an empty tree.
 		string buildTreeFromFileString;
 		string::size_type charCount;	
+		string::size_type i = 0;
 	       	while (getline (fileName, buildTreeFromFileString)) {
 			// Build Tree
-			charCount = buildTreeFromFileString.size();
-			root = Insert(root, buildTreeFromFileString, charCount);
+		//	charCount = buildTreeFromFileString.size();
+			charCount = stringsSeen[i].size();	
+			root = Insert(root, buildTreeFromFileString, charCount, stringsSeen);
+			i++;
 		}	
 		
+		// Preorder traversal call.
 		const string::size_type treeLevel = 0;
-		// Call PreOrder Traversal
-		 
-		traversePreOrder(root, treeLevel, tempFileName);
+
+		ofstream p0PreOrderFile("p0File.preorder");
+		traversePreOrder(root, treeLevel, p0PreOrderFile);
+		p0PreOrderFile.close();
+
 		tempFileName.close();
+
 //		root = Insert(root, tempFileName);
 //		tempFileName.close();
 	} else if(argc == 1) { // Read from keyboard until simulated keyboard EOF

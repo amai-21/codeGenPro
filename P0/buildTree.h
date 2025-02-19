@@ -4,11 +4,9 @@
 #define BUILDTREE_H
 #include "node.h"
 #include <string>
+#include <vector>
 
-//node_t* buildTree(FILE *);
-//node_t* Insert(node_t* root, string data, int charCount);
-node_t* Insert(node_t* root, string data, string::size_type charCount);
-
-node_t* GetNewNode(string data, string::size_type charCount);
+node_t* Insert(node_t* root, string data, string::size_type charCount, vector<string> stringsSeen);
+node_t* GetNewNode(string data, string::size_type charCount, vector<string> stringsSeen);
 
 #endif

@@ -1,5 +1,6 @@
 //traversals.cpp
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <string>
 #include "node.h"
@@ -46,9 +47,10 @@ void traversePreOrder(node_t* root, string::size_type treeLevel, ofstream &outpu
 	string indentation(indentationLevel, ' ');
 
 	cout << indentation << treeLevel << ' ' << root->charCount << ' ' << root->data << endl;
-
-	outputFile << indentation << treeLevel << ' ' << root->charCount << ' ' << root->data << endl;
 	
+	outputFile << indentation << treeLevel << ' ' << root->charCount << ' ' << root->data << endl;
+	outputFile.flush(); // Force immediate write to save data:
+
 	traversePreOrder(root->left, treeLevel + 1, outputFile);
 	traversePreOrder(root->right, treeLevel + 1, outputFile);
 }

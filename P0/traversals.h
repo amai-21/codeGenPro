@@ -8,7 +8,7 @@
 #include "node.h"
 
 void levelOrderRec(node_t* root, string::size_type treeLevel, vector<vector<string>>& res); // Helper function for recursive level order traversal. 
-vector<vector<string>> traverseLevelOrder(node_t* root, string::size_type treeLevel);
+vector<vector<string>> traverseLevelOrder(node_t* root, string::size_type treeLevel, ofstream &outputFile);
 void traversePreOrder(node_t* root, string::size_type treeLevel, ofstream &outputFile);
 void traversePostOrder(node_t* root, string::size_type treeLevel);
 
