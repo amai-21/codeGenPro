@@ -10,7 +10,7 @@
 // https://www.geeksforgeeks.org/level-order-tree-traversal/
 
 // Helper function for recursive level order traversal
-void levelOrderRec(node_t* root, string::size_type treeLevel, vector<vector<string>>& res){
+void levelOrderRec(node_t* root, string::size_type treeLevel, vector<vector<string>>& res, ofstream &outputFile){
 	// Base case: If node is null, return
 	if (root == nullptr) return;
 
@@ -21,22 +21,42 @@ void levelOrderRec(node_t* root, string::size_type treeLevel, vector<vector<stri
 	// Add current node's data to its corresponding level
 	res[treeLevel].push_back(root->data);
 
-	int indentationLevel = treeLevel * 4;
-	string indentation(indentationLevel, ' ');
-	cout << indentation << treeLevel << ' ' << root->data << endl;
+//	int indentationLevel = treeLevel * 4;
+//	string indentation(indentationLevel, ' ');
+//	cout << indentation << treeLevel << ' ' << root->charCount << ' ' << root->data << endl;
+
+//	outputFile << indentation << treeLevel << ' ' << root->charCount << ' ' << root->data << endl;
+//	outputFile.flush(); // Force immediate write to save data.
 
 	// Recur for left and right children
-	levelOrderRec(root->left, treeLevel + 1, res);
-	levelOrderRec(root->right, treeLevel + 1, res);
+	levelOrderRec(root->left, treeLevel + 1, res, outputFile);
+	levelOrderRec(root->right, treeLevel + 1, res, outputFile);
+
+//	int indentationLevel = treeLevel * 4;
+  //   	string indentation(indentationLevel, ' ');
+    // 	cout << indentation << treeLevel << ' ' << root->charCount << ' ' << root->data << endl;
+
 }
 
-vector<vector<string>> traverseLevelOrder(node_t* root, string::size_type treeLevel){
+vector<vector<string>> traverseLevelOrder(node_t* root, string::size_type treeLevel, ofstream &outputFile){
 	// Stores the result level by level
 	vector<vector<string>> res;
 
-	levelOrderRec(root, 0, res);
+	levelOrderRec(root, 0, res, outputFile);
+
+	// Iterative approach to level order printing borrowed from geeksfromgeeks.org: https://www.geeksforgeeks.org/print-level-order-traversal-line-line/ 
+	// Print results after traversal
+	for (string::size_type treeLevel = 0; treeLevel < res.size(); treeLevel++) {
+		string::size_type indentationLevel = treeLevel * 4;
+		string indentation(indentationLevel, ' ');
+
+		for (const string& val : res[treeLevel]) {
+			cout << indentation << treeLevel << ' ' << root->charCount << ' ' << val << endl;
+			outputFile << indentation << treeLevel << ' ' << root->charCount << ' ' << val << endl;
+		}
+	}	
+
 	return res;
-	
 }
 
 void traversePreOrder(node_t* root, string::size_type treeLevel, ofstream &outputFile){

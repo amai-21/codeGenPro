@@ -69,9 +69,15 @@ int main(int argc, char* argv[]){
 		// Preorder traversal call.
 		const string::size_type treeLevel = 0;
 
-		ofstream p0PreOrderFile("p0File.preorder");
-		traversePreOrder(root, treeLevel, p0PreOrderFile);
-		p0PreOrderFile.close();
+		ofstream p0FilePreOrder("p0File.preorder");
+		traversePreOrder(root, treeLevel, p0FilePreOrder);
+		p0FilePreOrder.close();
+
+		// Level Order Traversal call.
+		cout << "Level Order Traversals: <----------------------------------->" << endl;
+		ofstream p0FileLevelOrder("p0File.levelorder");
+	       	traverseLevelOrder(root, treeLevel, p0FileLevelOrder);	
+		p0FileLevelOrder.close();
 
 		tempFileName.close();
 
