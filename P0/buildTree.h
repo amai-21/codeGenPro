@@ -6,7 +6,9 @@
 #include <string>
 
 //node_t* buildTree(FILE *);
-node_t* Insert(node_t* root, string data, int charCount);
-node_t* GetNewNode(string data, int charCount);
+//node_t* Insert(node_t* root, string data, int charCount);
+node_t* Insert(node_t* root, string data, string::size_type charCount);
+
+node_t* GetNewNode(string data, string::size_type charCount);
 
 #endif

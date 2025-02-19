@@ -4,6 +4,7 @@
 #include <string> // For using getline(), specifically for handling keyboard input from the command line.
 #include <cctype> // For using isalnum() function to check if a character string is a letter or number.
 #include <string> 
+#include <vector> // For storing lists of strings.
 #include "buildTree.h"
 #include "node.h"
 #include "traversals.h"
@@ -11,10 +12,7 @@
 using namespace std;
 
 int main(int argc, char* argv[]){
-
 	//----------------------------Handling Command Line Arguments----------------------------------------------------------------------------->
-
-	//Create a temporary file object for writing:
 	ofstream tempFileName("temporaryFile.txt");
 
 	//Command line argument for if file was provided - Read from the file.
@@ -22,7 +20,13 @@ int main(int argc, char* argv[]){
 			 //ifstream filename(argv[1]);
 		ifstream fileName(argv[1]);
 		string fileNameString;
+		
+		if (!fileName) {
+			cerr << "Error: Unable to open file " << argv[1] << endl;
+			return 1;
+		}
 
+		// Input validation 
 		while(getline(fileName, fileNameString)){
 			for (char c : fileNameString) {
 				if (isalnum(c) || (c >= 33 && c <= 43) || isspace(c)) {
@@ -33,15 +37,41 @@ int main(int argc, char* argv[]){
 					exit(0);
 				}
 			}
-			tempFileName << fileNameString << " ";
-
-		
+//			tempFileName << fileNameString << " ";
+			
 		}
 
-		fileName.close();
+		// Reset the pointer from previous getline() usage so the subsequent getline() will run.
+		fileName.clear();
+		fileName.seekg(0);
+		
+		// list of strings already seen:
+		vector<string> stringsSeen; 
+		string readIntoVectorWords;
+	       	int i = 0;	
+		while (fileName >> readIntoVectorWords) {
+			stringsSeen.push_back(readIntoVectorWords);
+		}	
+		
+		
+
+
+		node_t* root = NULL; // Create an empty tree.
+		string buildTreeFromFileString;
+		string::size_type charCount;	
+	       	while (getline (fileName, buildTreeFromFileString)) {
+			// Build Tree
+			charCount = buildTreeFromFileString.size();
+			root = Insert(root, buildTreeFromFileString, charCount);
+		}	
+		
+		const string::size_type treeLevel = 0;
+		// Call PreOrder Traversal
+		 
+		traversePreOrder(root, treeLevel, tempFileName);
 		tempFileName.close();
-
-
+//		root = Insert(root, tempFileName);
+//		tempFileName.close();
 	} else if(argc == 1) { // Read from keyboard until simulated keyboard EOF
 		string keyboardReadingText;
 

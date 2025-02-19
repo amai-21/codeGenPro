@@ -1,10 +1,11 @@
 //buildTree.cpp
 #include <iostream>
 #include <string>
+#include <vector>
 #include "buildTree.h"
 #include "node.h"
 
-node_t* GetNewNode(string data, int charCount) {
+node_t* GetNewNode(string data, string::size_type charCount) {
 	node_t* newNode = new node_t();
 	newNode->data = data;
 	newNode->charCount = charCount;
@@ -13,9 +14,10 @@ node_t* GetNewNode(string data, int charCount) {
 }
 
 //Function that recursively calls itself when inserting a new node.
-node_t* Insert(node_t* root, string data, int charCount) { // empty tree
+//node_t* Insert(node_t* root, string data, int charCount) { // empty tree
+node_t* Insert(node_t* root, string data, string::size_type charCount) {	
 	if (root == NULL) {
-		charCount = data.size();
+		charCount = data.size();	
 		root = GetNewNode(data, charCount);
 	}
 	else if (data <= root->data) {
