@@ -51,7 +51,7 @@ vector<vector<string>> traverseLevelOrder(node_t* root, string::size_type treeLe
 			}
 			string::size_type charCount = word.size();
 
-			cout << indentation << treeLevel << ' ' << charCount << ' ' << val << endl;
+			//cout << indentation << treeLevel << ' ' << charCount << ' ' << val << endl;
 			outputFile << indentation << treeLevel << ' ' << charCount << ' ' << val << endl;
 		}
 	}	
@@ -66,10 +66,10 @@ void traversePreOrder(node_t* root, string::size_type treeLevel, ofstream &outpu
 	string::size_type indentationLevel = treeLevel * 4;
 	string indentation(indentationLevel, ' ');
 
-	cout << indentation << treeLevel << ' ' << root->charCount << ' ' << root->data << endl;
+	//cout << indentation << treeLevel << ' ' << root->charCount << ' ' << root->data << endl;
 	
 	outputFile << indentation << treeLevel << ' ' << root->charCount << ' ' << root->data << endl;
-	outputFile.flush(); // Force immediate write to save data
+	outputFile.flush(); // Force immediate write to save data 
 
 	traversePreOrder(root->left, treeLevel + 1, outputFile);
 	traversePreOrder(root->right, treeLevel + 1, outputFile);
@@ -85,7 +85,7 @@ void traversePostOrder(node_t* root, string::size_type treeLevel, ofstream &outp
 	traversePostOrder(root->left, treeLevel + 1, outputFile);
 	traversePostOrder(root->right, treeLevel + 1, outputFile);
 	
-	cout << indentation << treeLevel << ' ' << root->charCount << ' ' << root->data << endl;
+	//cout << indentation << treeLevel << ' ' << root->charCount << ' ' << root->data << endl;
 	outputFile << indentation << treeLevel << ' ' << root->charCount << ' ' << root->data << endl;
 	outputFile.flush(); // Force immediate write to save data.
 }
