@@ -57,13 +57,22 @@ int main(int argc, char* argv[]){
 		node_t* root = NULL; // Create an empty tree.
 		string buildTreeFromFileString;
 		string::size_type charCount;	
-		string::size_type i = 0;
+		//string::size_type i = 0;
 	       	while (getline (fileName, buildTreeFromFileString)) {
 			// Build Tree
 		//	charCount = buildTreeFromFileString.size();
-			charCount = stringsSeen[i].size();	
+		//	charCount = stringsSeen[i].size();
+		
+			string word = "";
+			for (char c : buildTreeFromFileString) {
+				if (c == ' ') {
+					break;
+				}
+				word += c;
+			}
+			charCount = word.size();
+		
 			root = Insert(root, buildTreeFromFileString, charCount, stringsSeen);
-			i++;
 		}	
 		
 		// Preorder traversal call.

@@ -51,8 +51,19 @@ vector<vector<string>> traverseLevelOrder(node_t* root, string::size_type treeLe
 		string indentation(indentationLevel, ' ');
 
 		for (const string& val : res[treeLevel]) {
-			cout << indentation << treeLevel << ' ' << root->charCount << ' ' << val << endl;
-			outputFile << indentation << treeLevel << ' ' << root->charCount << ' ' << val << endl;
+		//	cout << indentation << treeLevel << ' ' << root->charCount << ' ' << val << endl;
+		//	outputFile << indentation << treeLevel << ' ' << root->charCount << ' ' << val << endl;
+			string word = ""; // Extract beginning word before calculating correct char counts.
+			for (char c : val) { 
+				if (c == ' ') {
+					break; // Stop at first space.
+				}
+				word += c;
+			}
+			string::size_type charCount = word.size();
+
+			cout << indentation << treeLevel << ' ' << charCount << ' ' << val << endl;
+			outputFile << indentation << treeLevel << ' ' << charCount << ' ' << val << endl;
 		}
 	}	
 
