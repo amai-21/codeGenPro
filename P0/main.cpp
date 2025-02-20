@@ -52,8 +52,6 @@ int main(int argc, char* argv[]){
 		fileName.seekg(0);
 		
 		// list of strings already seen:
-	//	node_t* root = NULL;
-	  //   	string::size_type charCount;	
 		vector<string> stringsSeen; 
 		string readIntoVectorWords;
 
@@ -63,11 +61,8 @@ int main(int argc, char* argv[]){
 		node_t* root = NULL; // Create an empty tree.
 		string buildTreeFromFileString;
 		string::size_type charCount;	
-		//string::size_type i = 0;
 		
 	       	while (getline (fileName, buildTreeFromFileString)) {
-			//if (buildTreeFromFileString.empty()) continue; // Skip empty reads
-			//	stringsSeen.push_back(buildTreeFromFileString);
 			// Build Tree
 			
 			istringstream lineStream(buildTreeFromFileString); // Process each line separately
@@ -75,16 +70,12 @@ int main(int argc, char* argv[]){
 
 			while (lineStream >> word) {
 				charCount = word.size();	 
-			//}
+			
 		//	cout << buildTreeFromFileString;
-			//charCount = word.size();
-		//	cout << endl;
-		//	cout << charCount;
+			
 				stringsSeen.push_back(word);	
-				//cout << "Processing word: " << word << " (size: " << charCount << ")" << endl;		
 				root = Insert(root, word, charCount, stringsSeen);
-			}
-			//root = Insert(root, charCount, stringsSeen);
+			}	
 		}	
 		
 
@@ -102,14 +93,14 @@ int main(int argc, char* argv[]){
 		// Post Order Traversal call:
 		//cout << "Postorder traversal: <--------------------------------------------->" << endl;
 		string reNamePostOrderFile = inputFile + ".postorder"; 
-		ofstream p0FilePostOrder(reNamePreOrderFile + ".postorder");
+		ofstream p0FilePostOrder(reNamePostOrderFile);
 		traversePostOrder(root, treeLevel, p0FilePostOrder);
 		p0FilePostOrder.close();
 
 		// Level Order Traversal call:
 		//cout << "Level Order Traversals: <----------------------------------->" << endl;
 		string reNameLevelOrderFile = inputFile + ".levelorder";
-		ofstream p0FileLevelOrder(reNameLevelOrderFile + ".levelorder");
+		ofstream p0FileLevelOrder(reNameLevelOrderFile);
 	       	traverseLevelOrder(root, treeLevel, p0FileLevelOrder);	
 		p0FileLevelOrder.close();
 
@@ -135,11 +126,7 @@ int main(int argc, char* argv[]){
 			// read keyboard input into tempFileName.
 			tempFileNameCreate << keyboardReadingText << " ";	
 		}
-
-		//tempFileNameCreate.close();
 		
-		
-
 		//ifstream tempFileNameRead
 
 		cin.ignore(); // To discard any residual characters that could interere with reading into subsequent files.
@@ -151,10 +138,7 @@ int main(int argc, char* argv[]){
 		// list of strings already seen:
 		vector<string> stringsSeen;
 	        string readIntoVectorWords;
-		//while (tempFileNameRead >> readIntoVectorWords) {
-		//	stringsSeen.push_back(readIntoVectorWords);
-		//}	
-
+		
 		// Reset the pointer from previous getline() usage so the subsequent getline() calls will work.
 		tempFileNameRead.clear();
 		tempFileNameRead.seekg(0);	
@@ -165,48 +149,43 @@ int main(int argc, char* argv[]){
 		string::size_type charCount;
 		while (getline(tempFileNameRead, buildTreeFromFileString)) {
 			// Build tree
-			istringsteam lineStream(buildTreeFromFileString); // Process each line separately 
-			string word = "";
-			for (char c: buildTreeFromFileString) {
-				if (c == ' ') {
-					break;
-				}
-				word += c;
-			}
-			charCount = word.size();
+			istringstream lineStream(buildTreeFromFileString); // Process each line separately 
+			string word;
 
-			root = Insert(root, buildTreeFromFileString, charCount, stringsSeen);
-			//root = Insert(root, charCount, stringsSeen);
+			while (lineStream >> word) {
+				charCount = word.size();
+				stringsSeen.push_back(word);
+				root = Insert(root, buildTreeFromFileString, charCount, stringsSeen);
+		
+			}
 		}	
 		
-		//tempFileNameRead.clear();
-		//tempFileNameRead.seekg(0);
+		tempFileNameRead.clear();
+		tempFileNameRead.seekg(0);
 
 		const string::size_type treeLevel = 0;
 		// Pre Order Traversal Call:
-		cout << "Preorder traversal: <------------------------------------------>" << endl;
-		ofstream p0FilePreOrder("p0File.preorder");
+		//cout << "Preorder traversal: <------------------------------------------>" << endl;
+		string reNamePreOrderFile = "p0TemporaryFile.preorder";
+		ofstream p0FilePreOrder(reNamePreOrderFile);
 		traversePreOrder(root, treeLevel, p0FilePreOrder);
 		p0FilePreOrder.close();
 
 		// Post Order Traversal Call:
-		cout << "Postorder traversal: <------------------------------------------->" << endl;
-	       	ofstream p0FilePostOrder("p0File.postorder");
+		//cout << "Postorder traversal: <------------------------------------------->" << endl;
+		string reNamePostOrderFile = "p0TemporaryFile.postorder";
+	       	ofstream p0FilePostOrder(reNamePostOrderFile);
 		traversePostOrder(root, treeLevel, p0FilePostOrder);
 		p0FilePostOrder.close();	
 
 		// Level Order Traversal Call:
-		cout << "Levelorder traversal: <-------------------------------------------->" << endl;
-	       	ofstream p0FileLevelOrder("p0File.levelorder");
+		//cout << "Levelorder traversal: <-------------------------------------------->" << endl;
+		string reNameLevelOrderFile = "p0TemporaryFile.levelorder";
+	       	ofstream p0FileLevelOrder(reNameLevelOrderFile);
 		traverseLevelOrder(root, treeLevel, p0FileLevelOrder);	
 		p0FileLevelOrder.close();
 
 		tempFileNameRead.close();
-		
-		// Test rename of files:
-		//rename("temporaryFile.txt", "tempFile.txt" ); 
-
-		
 
 	} else if(argc > 2) { // If user input 3 or more strings, display an error:
 		cout << "P0 ";
