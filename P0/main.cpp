@@ -56,27 +56,8 @@ int main(int argc, char* argv[]){
 	  //   	string::size_type charCount;	
 		vector<string> stringsSeen; 
 		string readIntoVectorWords;
+
 		//string word;
-	//	while (fileName >> readIntoVectorWords) {
-	//		stringsSeen.push_back(readIntoVectorWords);
-		//	cout << readIntoVectorWords << endl;
-//			word = "";
-//			for (char c : readIntoVectorWords) {
-//				if (!isspace(c)) {
-//					word += c;
-//				}
-//				else {
-//					stringsSeen.push_back(word);
-//					charCount = word.size();
-//					break;
-//				}	
-//			}
-//			root = Insert(root, readIntoVectorWords,charCount, stringsSeen);
-
-	//}	
-		
-	//	cout << endl << endl;
-
 		fileName.clear();
 		fileName.seekg(0);
 		node_t* root = NULL; // Create an empty tree.
@@ -170,9 +151,9 @@ int main(int argc, char* argv[]){
 		// list of strings already seen:
 		vector<string> stringsSeen;
 	        string readIntoVectorWords;
-		while (tempFileNameRead >> readIntoVectorWords) {
-			stringsSeen.push_back(readIntoVectorWords);
-		}	
+		//while (tempFileNameRead >> readIntoVectorWords) {
+		//	stringsSeen.push_back(readIntoVectorWords);
+		//}	
 
 		// Reset the pointer from previous getline() usage so the subsequent getline() calls will work.
 		tempFileNameRead.clear();
@@ -183,6 +164,8 @@ int main(int argc, char* argv[]){
 		string buildTreeFromFileString;
 		string::size_type charCount;
 		while (getline(tempFileNameRead, buildTreeFromFileString)) {
+			// Build tree
+			istringsteam lineStream(buildTreeFromFileString); // Process each line separately 
 			string word = "";
 			for (char c: buildTreeFromFileString) {
 				if (c == ' ') {
