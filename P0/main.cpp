@@ -4,6 +4,7 @@
 #include <string> // For using getline(), specifically for handling keyboard input from the command line.
 #include <cctype> // For using isalnum() function to check if a character string is a letter or number.
 #include <string> 
+#include <sstream>
 #include <vector> // For storing lists of strings.
 #include "buildTree.h"
 #include "node.h"
@@ -50,33 +51,64 @@ int main(int argc, char* argv[]){
 		fileName.seekg(0);
 		
 		// list of strings already seen:
+	//	node_t* root = NULL;
+	  //   	string::size_type charCount;	
 		vector<string> stringsSeen; 
 		string readIntoVectorWords;
-		while (fileName >> readIntoVectorWords) {
-			stringsSeen.push_back(readIntoVectorWords);
-		}	
+		//string word;
+	//	while (fileName >> readIntoVectorWords) {
+	//		stringsSeen.push_back(readIntoVectorWords);
+		//	cout << readIntoVectorWords << endl;
+//			word = "";
+//			for (char c : readIntoVectorWords) {
+//				if (!isspace(c)) {
+//					word += c;
+//				}
+//				else {
+//					stringsSeen.push_back(word);
+//					charCount = word.size();
+//					break;
+//				}	
+//			}
+//			root = Insert(root, readIntoVectorWords,charCount, stringsSeen);
+
+	//}	
 		
+	//	cout << endl << endl;
+
 		fileName.clear();
 		fileName.seekg(0);
 		node_t* root = NULL; // Create an empty tree.
 		string buildTreeFromFileString;
 		string::size_type charCount;	
 		//string::size_type i = 0;
-	       	while (getline (fileName, buildTreeFromFileString)) {
-			// Build Tree
-			string word = "";
-			for (char c : buildTreeFromFileString) {
-				if (c == ' ') {
-					break;
-				}
-				word += c;
-			}
-			charCount = word.size();
 		
-			root = Insert(root, buildTreeFromFileString, charCount, stringsSeen);
+	       	while (getline (fileName, buildTreeFromFileString)) {
+			//if (buildTreeFromFileString.empty()) continue; // Skip empty reads
+			//	stringsSeen.push_back(buildTreeFromFileString);
+			// Build Tree
+			
+			istringstream lineStream(buildTreeFromFileString); // Process each line separately
+			string word;
+
+			while (lineStream >> word) {
+				charCount = word.size();	 
+			//}
+		//	cout << buildTreeFromFileString;
+			//charCount = word.size();
+		//	cout << endl;
+		//	cout << charCount;
+				stringsSeen.push_back(word);	
+				cout << "Processing word: " << word << " (size: " << charCount << ")" << endl;		
+				root = Insert(root, word, charCount, stringsSeen);
+			}
 			//root = Insert(root, charCount, stringsSeen);
 		}	
 		
+
+		//sstream code kindly and educationally borrowed from Geeksforgeeks.com: https://www.geeksforgeeks.org/stringstream-c-applications/
+	
+
 		// Pre Order Traversal call:
 		//cout << "Preorder traversal: <---------------------------------------------->" << endl; 
 		const string::size_type treeLevel = 0;

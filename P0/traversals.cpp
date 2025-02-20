@@ -52,6 +52,7 @@ vector<vector<string>> traverseLevelOrder(node_t* root, string::size_type treeLe
 
 			//cout << indentation << treeLevel << ' ' << charCount << ' ' << val << endl;
 			outputFile << indentation << treeLevel << ' ' << charCount << ' ' << val << endl;
+			//outputFile << indentation << treeLevel << ' ' << charCount << ' ' << word << endl;
 		}
 	}	
 
