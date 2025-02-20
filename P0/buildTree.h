@@ -7,6 +7,7 @@
 #include <vector>
 
 node_t* Insert(node_t* root, string data, string::size_type charCount, vector<string> stringsSeen);
+//node_t* Insert(node_t* root, string::size_type charCount, vector<string> stringsSeen);
 node_t* GetNewNode(string data, string::size_type charCount, vector<string> stringsSeen);
-
+//node_t* GetNewNode(string::size_type charCount, vector<string> stringsSeen);
 #endif

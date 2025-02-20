@@ -33,7 +33,7 @@ int main(int argc, char* argv[]){
 		}
 
 		// Input validation 
-		while(getline(fileName, fileNameString)){
+		while(getline(fileName, fileNameString)){ // Character Processing Code kindly and educationally borrowed from C++ Primer textbook by Barbar E. Moo, Josee Lajoie, and Stanley B. Lippman.
 			for (char c : fileNameString) {
 				if (isalnum(c) || (c >= 33 && c <= 43) || isspace(c)) {
 				//	tempFileName2 << fileNameString;
@@ -74,6 +74,7 @@ int main(int argc, char* argv[]){
 			charCount = word.size();
 		
 			root = Insert(root, buildTreeFromFileString, charCount, stringsSeen);
+			//root = Insert(root, charCount, stringsSeen);
 		}	
 		
 		// Pre Order Traversal call:
@@ -156,6 +157,7 @@ int main(int argc, char* argv[]){
 			charCount = word.size();
 
 			root = Insert(root, buildTreeFromFileString, charCount, stringsSeen);
+			//root = Insert(root, charCount, stringsSeen);
 		}	
 		
 		//tempFileNameRead.clear();

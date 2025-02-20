@@ -40,8 +40,7 @@ vector<vector<string>> traverseLevelOrder(node_t* root, string::size_type treeLe
 		string indentation(indentationLevel, ' ');
 
 		for (const string& val : res[treeLevel]) {
-		//	cout << indentation << treeLevel << ' ' << root->charCount << ' ' << val << endl;
-		//	outputFile << indentation << treeLevel << ' ' << root->charCount << ' ' << val << endl;
+			// Character processing code kindly and educationally borrowed from C++ Primer textbook written in 2013.
 			string word = ""; // Extract beginning word before calculating correct char counts.
 			for (char c : val) { 
 				if (c == ' ') {
@@ -59,6 +58,7 @@ vector<vector<string>> traverseLevelOrder(node_t* root, string::size_type treeLe
 	return res;
 }
 
+// Recursive preorder traversal function call.
 void traversePreOrder(node_t* root, string::size_type treeLevel, ofstream &outputFile){
 	if (root == NULL) return; // Base case for this recursive function call.
 
@@ -75,6 +75,7 @@ void traversePreOrder(node_t* root, string::size_type treeLevel, ofstream &outpu
 	traversePreOrder(root->right, treeLevel + 1, outputFile);
 }
 
+// Recursive Post Order traversal function call.
 void traversePostOrder(node_t* root, string::size_type treeLevel, ofstream &outputFile){
 	if (root==NULL) return; // Base case for this recursive function call.
 
