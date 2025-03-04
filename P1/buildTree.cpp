@@ -27,12 +27,15 @@ node_t* Insert(node_t* root, string data, string::size_type charCount, vector<st
 //	else if (data <= root->data) {
 	else if (charCount < root->charCount) { // Store in left sub tree
 		root->left = Insert(root->left, data, charCount, stringsSeen);
+	//	cout << "Data: " << data << endl;
+		// cout << "stringsSeen:" << stringsSeen << endl;
 	}
 	else if(charCount > root->charCount) { // Store in right subtree 
 		root->right = Insert(root->right, data, charCount, stringsSeen);
 
-	} else if (charCount == root->charCount) { // Append next word to old word (root->data)
-		root->data += " " + data;	
+	} //else if (charCount == root->charCount) { // Append next word to old word (root->data)
+	else {
+	//	root->data += " " + data;	
 	}
 	return root;
 }
