@@ -11,6 +11,7 @@ enum TokenType {
 	typeT1, // Characters: ! " # $ % & ' ( ) These characters correspond to ascii numbers 33 to 41.
 	typeT2, // Begin with a single + followed by one or more digits (0-9).
 	typeT3, // Begin with a single letter, (a-z, A-Z), followed by one or more digits (0-9).
+	EOFtk, // End-of-file token.
 };
 
 // Implement token as a triplet {tokenType, tokenInstance, line#}
