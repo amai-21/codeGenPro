@@ -8,12 +8,16 @@
 
 using namespace std;
 
-vector<tokenStruct> tokenize(string &sourceCode); // function to take the source code as input and returns a vector of tokens.
+class LexicalAnalyzer {
+	private: 
+		string input;
+		size_t position;
+		unordered_map<string, TokenType> typet1;
+		void initTypeT1();
 
-vector<string> splitString(const string &sourceCode); // Helper function to split the source code into individual words based on space.
+	public:
+		LexicalAnalyzer(const string &sourceCode);
+		string getNextToken();
 
-TokenType token(int); // function for converting large int to tokenType.
-
-TokenType FADriver();
-
+};
 #endif
