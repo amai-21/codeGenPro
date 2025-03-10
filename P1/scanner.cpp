@@ -10,11 +10,12 @@ using namespace std;
 /* Lexical Analyzer (Scanner) code was kindly and educationally borrowed from Geeksforgeeks.org: https://www.geeksforgeeks.org/lexical-analyzer-in-cpp/ */
 
 // Constructor: 
-LexicalAnalyzer::LexicalAnalyzer(const string &sourceCode) {
-	input = sourceCode;
-	position = 0;
+LexicalAnalyzer::LexicalAnalyzer(const string &sourceCode) 
+	: input(sourceCode)
+	, position(0)
+	{  
 	initTypeT1();
-}	
+	}	
 
 // Function to initialize the typet1 map.
 void LexicalAnalyzer::initTypeT1 () {
@@ -39,32 +40,52 @@ bool isLetter(char c) {
 	return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');	
 }
 
+// Function to check if a character is a new line:
+bool isNewLine(char c) {
+	return c == '\n';
+}	
+
 
 string LexicalAnalyzer::getNextToken() {
+
+	// Define a tokenStruct object:
+	tokenStruct tokenObject; 
+	
+	tokenObject.lineNumber = 1;
 
 	size_t start = position;
 
 	// Check for type t2 tokens:
 	if (input[position] == '+') {
 		position++;
-			
+		
+		// Increment line number if new line.
+		if (isNewLine(input[position])) {
+			tokenObject.lineNumber++;
+		}
+
 		// Check if next character is a digit:
 		if (isDigit(input[position])) {
 			// Keep going.	
 			position++; 
 		} else {
-			cout << "Invalid Token Type! This character does not belong to type T2 tokens: " << input[position] << endl;
-		        cout << "Program ending..." << endl;
-			return "Invalid token";
+			cout << "SCANNER ERROR. String input: " << input << "Line Number: " << tokenObject.lineNumber << endl; // Include line number right after.
 	       		exit(0);		       
 		}
  	
+		if (isNewLine(input[position])) {
+			tokenObject.lineNumber++;
+		}
+
 		while (position < input.length()) {
 			position++;
+
+			if (isNewLine(input[position])) {
+				tokenObject.lineNumber++;		
+			}
+
 			if (!isDigit(input[position])) {
-				cout << "Invalid Token Type! This character does not belong to type T2 tokens: " << input[position] << endl;
-				cout << "Program ending..." << endl;
-				return "invalid token";
+				cout << "SCANNER ERROR. String input: " << input << "Line Number: " << tokenObject.lineNumber << endl;
 				exit(0);
 			}
 		}		
@@ -79,26 +100,21 @@ string LexicalAnalyzer::getNextToken() {
 			// Keep going.
 			position++; 
 		} else {
-			cout << "Invalid Token Type! This character does not belong to type T3 tokens: " << input[position] << endl;
-			cout << "Program ending..." << endl;
-			return "invalid token";
+			cout << "SCANNER ERROR. String input: " << input << "Line Number: " << tokenObject.lineNumber << endl;
 			exit(0);
 		}
 
 		while (position < input.length()) {
 			position++;
 			if (!isDigit(input[position])) {
-				cout << "Invalid Token Type! This character does not belong to type T3 tokens: " << input[position] << endl;
-			       	cout << "Program ending..." << endl;
-				return "invalid token";
+				cout << "SCANNER ERROR. String input: " << input << "Line Number: " << tokenObject.lineNumber << endl;
 				exit(0);	
 			}
 		}
 
 		return input.substr(start, position - start);	
 	} else {
-		cout << "Invalid token types. " << endl;
-		// insert input string and line number
+		cout << "SCANNER ERROR. String input: " << input << "Line Number: " << tokenObject.lineNumber << endl;
 		exit(0); 
 	}
 
