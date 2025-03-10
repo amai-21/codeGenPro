@@ -8,6 +8,10 @@
 
 using namespace std;
 
+TokenType token (int); // function for converting large int to TokenType
+
+TokenType FADriver();
+
 class LexicalAnalyzer {
 	private: 
 		string input;
@@ -20,4 +24,5 @@ class LexicalAnalyzer {
 		string getNextToken();
 
 };
+
 #endif

@@ -1,7 +1,8 @@
 // testScanner.cpp
+ 
 #include "testScanner.h"
 
-void testScanner(){
+int main(int argc, char* argv[]) {
 
-	// Iteratively call scanner() and print token until scanner returns EOFTK. 
+	return 0;
 }
