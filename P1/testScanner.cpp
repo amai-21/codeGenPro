@@ -2,7 +2,6 @@
  
 #include "testScanner.h"
 
-int main(int argc, char* argv[]) {
+void testScanner() {
 
-	return 0;
 }

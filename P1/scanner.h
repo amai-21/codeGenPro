@@ -8,15 +8,15 @@
 
 using namespace std;
 
-TokenType token (int); // function for converting large int to TokenType
+TokenID token (int); // function for converting large int to TokenType
 
-TokenType FADriver();
+tokenStruct FADriver();
 
 class LexicalAnalyzer {
 	private: 
 		string input;
 		size_t position;
-		unordered_map<string, TokenType> typet1;
+		unordered_map<string, TokenID> typet1;
 		void initTypeT1();
 
 	public:

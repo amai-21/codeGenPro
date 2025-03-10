@@ -6,7 +6,7 @@
 #include <string>
 
 using namespace std;
- 
+/* 
 // Enum class to define different types of tokens.
 enum class TokenType {
 	TYPET1, // Characters: ! " # $ % & ' ( ) These characters correspond to ascii numbers 33 to 41.
@@ -20,6 +20,17 @@ struct tokenStruct {
 	TokenType type;
 	string tokenInstance;	
 	int lineNumber;
+};
+*/
+
+enum TokenID {t1Tk, t2Tk, t3Tk, EOFtk};
+
+string tokenNames[] = {"t1Tk", "t2Tk", "t3Tk", "EOFTk"};
+
+struct tokenStruct {
+	TokenID tokenID;
+       	string tokenInstance;
+       	int lineNumber;
 };
 
 #endif

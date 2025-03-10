@@ -12,6 +12,62 @@ const int numberOfStates = 6;
 const int numberOfColumns = 6;
 
 int driverTable[numberOfStates][numberOfColumns] {
+	{0, 1, 4, -1, 1001, 2},
+	{1002, 1002, 1002, 1002, 1002, 1002},
+	{-2, -2, -2, 2, -2, -2},
+	{1003, 1003, 1003, 3, 1003, 1003},
+	{-3, -3, -3, 5, -3, -3},
+	{1004, 1004, 1004, 5, 1004, 1004}
+};
+
+// Global variable nextChar is set to next character in input.
+char nextChar;
+
+tokenStruct FADriver() {
+	int state = 0; // initial state
+	int nextState;
+	string S = "";
+
+	nextChar = getchar();
+
+	while (state < 1001) {
+		nextState = driverTable[state][nextChar];
+		if (nextState == -1 || nextState == -2 || nextState == -3) {
+			cout << "Encountered error state" << endl;
+			exit(0);
+		}
+		
+		//Final states	
+		if (nextState == 1002) { // Need t1 type lookup
+			tokenStruct finalInformation;
+			finalInformation.tokenID = t1Tk;
+			finalInformation.tokenInstance = S;
+			
+			return finalInformation;
+
+		} else if (nextState == 1003) {
+	//		if (S in typet2) {
+	//			return (t2Tk, S);
+	//		}
+		} else if (nextState == 1004) {
+	//		if (S in typet3) {
+	//			return (t3Tk, S);
+	//		}
+		} else if (nextState == 1001) {
+	//		return (EOFTk, S);
+		} else { // not final state:
+			state = nextState;
+			append(S, nextChar);
+			nextChar = getchar();
+		}
+	}
+}
+
+/*
+
+
+
+int driverTable[numberOfStates][numberOfColumns] {
 	{0, 5, 1, -1, 1004, 3},
 	{-2, -2, -2, 2, -2, -2},
 	{1003, 1003, 1003, 2, 1003, 1003},
@@ -32,6 +88,7 @@ TokenType FADriver() { // assume nextChar set, and used as column index
 			cout << "Encountered error state." << endl;
 			exit(0); // report and exit.
 		}
+		//1001 = t1TK 1002 = t3Tk 1003 = t2Tk 1004 = EOFTk
 		if (nextState >= 1001) {
 			if (token(nextState) == ID) { // need reserved keyword lookup
 				if (S in Keywords) {
@@ -51,7 +108,7 @@ TokenType FADriver() { // assume nextChar set, and used as column index
 	}
 
 }
-
+*/
 /* Lexical Analyzer (Scanner) code was kindly and educationally borrowed from Geeksforgeeks.org: https://www.geeksforgeeks.org/lexical-analyzer-in-cpp/ */
 
 // Constructor: 
@@ -64,15 +121,15 @@ LexicalAnalyzer::LexicalAnalyzer(const string &sourceCode)
 
 // Function to initialize the typet1 map.
 void LexicalAnalyzer::initTypeT1 () {
-	typet1["!"] = TokenType::TYPET1;
-	typet1["\""] = TokenType::TYPET1;
-	typet1["#"] = TokenType::TYPET1;
-	typet1["$"] = TokenType::TYPET1;
-	typet1["%"] = TokenType::TYPET1;
-	typet1["&"] = TokenType::TYPET1;
-	typet1["'"] = TokenType::TYPET1;
-	typet1["("] = TokenType::TYPET1;
-	typet1[")"] = TokenType::TYPET1;
+	typet1["!"] = TokenID::t1Tk;
+	typet1["\""] = TokenID::t1Tk;
+	typet1["#"] = TokenID::t1Tk;
+	typet1["$"] = TokenID::t1Tk;
+	typet1["%"] = TokenID::t1Tk;
+	typet1["&"] = TokenID::t1Tk;
+	typet1["'"] = TokenID::t1Tk;
+	typet1["("] = TokenID::t1Tk;
+	typet1[")"] = TokenID::t1Tk;
 }
 	
 // Function to check if a character is a digit.
