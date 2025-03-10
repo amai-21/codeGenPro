@@ -23,6 +23,43 @@ int driverTable[numberOfStates][numberOfColumns] {
 // Global variable nextChar is set to next character in input.
 char nextChar;
 
+/* Function for handling indices that map to a specific label:
+
+	ws = 0
+	(!-)) = 1
+	letter = 2
+	digit = 3
+	EOF = 4
+	+ = 5
+
+ */
+int columnIndices(char c) {
+
+	if (isspace(c)) { // ws
+		return 0;
+	}
+	
+	if (c >= 33 && c <= 43) { // (!-))
+		return 1;
+	}
+
+	if (isalpha(c)) { // letter.
+		return 2;
+	}
+
+	if (isdigit(c)) { // digit.
+		return 3;
+	}
+
+	if (c == EOF) { // EOF
+		return 4;
+	}
+
+	if (c == '+') { // '+'
+		return 5;
+	}
+}
+
 tokenStruct FADriver() {
 	int state = 0; // initial state
 	int nextState;
@@ -38,27 +75,38 @@ tokenStruct FADriver() {
 		}
 		
 		//Final states	
-		if (nextState == 1002) { // Need t1 type lookup
+		if (nextState == 1002) { // Need t1 type lookup.
 			tokenStruct finalInformation;
 			finalInformation.tokenID = t1Tk;
 			finalInformation.tokenInstance = S;
 			
 			return finalInformation;
 
-		} else if (nextState == 1003) {
-	//		if (S in typet2) {
-	//			return (t2Tk, S);
-	//		}
-		} else if (nextState == 1004) {
-	//		if (S in typet3) {
-	//			return (t3Tk, S);
-	//		}
-		} else if (nextState == 1001) {
-	//		return (EOFTk, S);
-		} else { // not final state:
+		} else if (nextState == 1003) { // Need t2 type lookup.
+			tokenStruct finalInformation;
+			finalInformation.tokenID = t2Tk;
+			finalInformation.tokenInstance = S;
+
+			return finalInformation;
+
+		} else if (nextState == 1004) { // Need t3 type lookup.
+			tokenStruct finalInformation;
+			finalInformation.tokenID = t3Tk;
+			finalInformation.tokenInstance = S;
+
+			return finalInformation;
+
+		} else if (nextState == 1001) { // For EOF token.
+			tokenStruct finalInformation;
+			finalInformation.tokenID = EOFtk;
+			finalInformation.tokenInstance = S;
+
+			return finalInformation;
+
+		} else { // If not final state, keep scanning.
 			state = nextState;
-			append(S, nextChar);
-			nextChar = getchar();
+			S += nextChar;
+			nextChar = getchar(); // Move to the next character.
 		}
 	}
 }
