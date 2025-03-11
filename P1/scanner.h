@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include "token.h"
+#include <unordered_map>
 
 using namespace std;
 
