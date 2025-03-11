@@ -9,6 +9,7 @@
 #include "buildTree.h"
 #include "node.h"
 #include "traversals.h"
+#include "testScanner.h"
 
 using namespace std;
 
@@ -55,9 +56,6 @@ int main(int argc, char* argv[]){
 		vector<string> stringsSeen; 
 		string readIntoVectorWords;
 
-		//string word;
-	//	fileName.clear();
-	//	fileName.seekg(0);
 		node_t* root = NULL; // Create an empty tree.
 		string buildTreeFromFileString;
 		string::size_type charCount;	

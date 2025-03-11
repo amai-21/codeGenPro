@@ -21,7 +21,12 @@ int driverTable[numberOfStates][numberOfColumns] {
 };
 
 // Global variable nextChar is set to next character in input.
-char nextChar;
+//char nextChar;
+
+struct nextChar {
+	char actualCharacter;
+	int  labelColumnNumber;
+};
 
 /* Function for handling indices that map to a specific label:
 
@@ -87,11 +92,13 @@ tokenStruct FADriver() {
 	int nextState;
 	string S = "";
 
-	nextChar = getchar();
+	nextChar nextCharObject;
 
-	int driverTableColumn = columnIndices(nextChar);
+	nextCharObject.actualCharacter = getchar();
+
+	int driverTableColumn = columnIndices(nextCharObject.actualCharacter);
 	if (driverTableColumn == -1) {
-		cout << "Error: Invalid Character: '" << nextChar << "'" << endl;
+		cout << "Error: Invalid Character: '" << nextCharObject.actualCharacter << "'" << endl;
 		exit(0);
 	}
 
@@ -134,8 +141,8 @@ tokenStruct FADriver() {
 
 		} else { // If not final state, keep scanning.
 			state = nextState;
-			S += nextChar;
-			nextChar = getchar(); // Move to the next character.
+			S += nextCharObject.actualCharacter;
+			nextCharObject.actualCharacter = getchar(); // Move to the next character.
 		}
 	}
 }

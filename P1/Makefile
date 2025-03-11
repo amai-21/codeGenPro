@@ -21,7 +21,7 @@ traversals.o: traversals.cpp traversals.h node.h
 scanner.o: scanner.cpp scanner.h token.h
 	$(CC) $(CFLAGS) -c scanner.cpp
 
-testScanner.o: testScanner.cpp testScanner.h
+testScanner.o: testScanner.cpp testScanner.h token.h
 	$(CC) $(CFLAGS) -c testScanner.cpp
 
 token.o: token.cpp token.h

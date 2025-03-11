@@ -25,7 +25,7 @@ struct tokenStruct {
 
 enum TokenID {t1Tk, t2Tk, t3Tk, EOFtk};
 
-// string tokenNames[] = {"t1Tk", "t2Tk", "t3Tk", "EOFTk"};
+extern string tokenNames[];
 
 struct tokenStruct {
 	TokenID tokenID;
