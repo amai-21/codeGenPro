@@ -8,14 +8,14 @@
 
 using namespace std;
 
-TokenID finalToTokenType (int); // function for converting large int to TokenType
+TokenID finalToTokenType (int finalState); // function for converting large int to TokenType
 
 tokenStruct FADriver();
 
 // column indices that correspond with the DFSA table's specified labels:
 int columnIndices(char c); 
 
-class LexicalAnalyzer {
+class scanner {
 	private: 
 		string input;
 		size_t position;
@@ -23,7 +23,7 @@ class LexicalAnalyzer {
 		void initTypeT1();
 
 	public:
-		LexicalAnalyzer(const string &sourceCode);
+		scanner(const string &sourceCode);
 		string getNextToken();
 
 };

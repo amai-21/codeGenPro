@@ -33,13 +33,14 @@ char nextChar;
 	+ = 5
 
  */
+
 int columnIndices(char c) {
 
 	if (isspace(c)) { // ws
 		return 0;
 	}
 	
-	if (c >= 33 && c <= 43) { // (!-))
+	if (c >= 33 && c <= 42) { // (!-))
 		return 1;
 	}
 
@@ -58,7 +59,28 @@ int columnIndices(char c) {
 	if (c == '+') { // '+'
 		return 5;
 	}
+
+	return -1; // Error case for unknown characters.
 }
+
+// Function for converting large int to tokenType.
+TokenID finalToTokenType(int finalState) {
+	if (finalState == 1001) {
+		return EOFtk;
+	} else if (finalState == 1002) {
+		return t1Tk;
+	} else if (finalState == 1003) {
+		return t2Tk;
+	} else if (finalState == 1004) {
+		return t3Tk;
+	} else {
+		cout << "Error: Unknown final state " << finalState << endl;
+		exit(0);
+	}
+
+
+//	return -1;
+}	
 
 tokenStruct FADriver() {
 	int state = 0; // initial state
@@ -67,8 +89,15 @@ tokenStruct FADriver() {
 
 	nextChar = getchar();
 
+	int driverTableColumn = columnIndices(nextChar);
+	if (driverTableColumn == -1) {
+		cout << "Error: Invalid Character: '" << nextChar << "'" << endl;
+		exit(0);
+	}
+
+
 	while (state < 1001) {
-		nextState = driverTable[state][nextChar];
+		nextState = driverTable[state][driverTableColumn];
 		if (nextState == -1 || nextState == -2 || nextState == -3) {
 			cout << "Encountered error state" << endl;
 			exit(0);
@@ -77,28 +106,28 @@ tokenStruct FADriver() {
 		//Final states	
 		if (nextState == 1002) { // Need t1 type lookup.
 			tokenStruct finalInformation;
-			finalInformation.tokenID = t1Tk;
+			finalInformation.tokenID = finalToTokenType(nextState);
 			finalInformation.tokenInstance = S;
 			
 			return finalInformation;
 
 		} else if (nextState == 1003) { // Need t2 type lookup.
 			tokenStruct finalInformation;
-			finalInformation.tokenID = t2Tk;
+			finalInformation.tokenID = finalToTokenType(nextState);
 			finalInformation.tokenInstance = S;
 
 			return finalInformation;
 
 		} else if (nextState == 1004) { // Need t3 type lookup.
 			tokenStruct finalInformation;
-			finalInformation.tokenID = t3Tk;
+			finalInformation.tokenID = finalToTokenType(nextState);
 			finalInformation.tokenInstance = S;
 
 			return finalInformation;
 
 		} else if (nextState == 1001) { // For EOF token.
 			tokenStruct finalInformation;
-			finalInformation.tokenID = EOFtk;
+			finalInformation.tokenID = finalToTokenType(nextState);
 			finalInformation.tokenInstance = S;
 
 			return finalInformation;
@@ -160,7 +189,7 @@ TokenType FADriver() { // assume nextChar set, and used as column index
 /* Lexical Analyzer (Scanner) code was kindly and educationally borrowed from Geeksforgeeks.org: https://www.geeksforgeeks.org/lexical-analyzer-in-cpp/ */
 
 // Constructor: 
-LexicalAnalyzer::LexicalAnalyzer(const string &sourceCode) 
+scanner::scanner(const string &sourceCode) 
 	: input(sourceCode)
 	, position(0)
 	{  
@@ -168,7 +197,7 @@ LexicalAnalyzer::LexicalAnalyzer(const string &sourceCode)
 	}	
 
 // Function to initialize the typet1 map.
-void LexicalAnalyzer::initTypeT1 () {
+void scanner::initTypeT1 () {
 	typet1["!"] = TokenID::t1Tk;
 	typet1["\""] = TokenID::t1Tk;
 	typet1["#"] = TokenID::t1Tk;
@@ -196,7 +225,7 @@ bool isNewLine(char c) {
 }	
 
 
-string LexicalAnalyzer::getNextToken() {
+string scanner::getNextToken() {
 
 	// Define a tokenStruct object:
 	tokenStruct tokenObject; 
@@ -267,7 +296,5 @@ string LexicalAnalyzer::getNextToken() {
 		cout << "SCANNER ERROR. String input: " << input << "Line Number: " << tokenObject.lineNumber << endl;
 		exit(0); 
 	}
-
-	// return input.substr(start, position - start);
 }	
 
