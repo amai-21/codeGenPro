@@ -153,38 +153,6 @@ int driverTable[numberOfStates][numberOfColumns] {
 	{1001, 1001, 1001, 1001, 1001, 1001}
 };
 
-
-TokenType FADriver() { // assume nextChar set, and used as column index
-	int state = 0; // inital state
-	int nextState;
-	string S= "";
-
-	while (state < 1000) { // Run until reached final state.
-		nextState = driverTable[state][nextChar];
-		if (nextState == -2 || nextState == -3 || nextState == -1) {
-			cout << "Encountered error state." << endl;
-			exit(0); // report and exit.
-		}
-		//1001 = t1TK 1002 = t3Tk 1003 = t2Tk 1004 = EOFTk
-		if (nextState >= 1001) {
-			if (token(nextState) == ID) { // need reserved keyword lookup
-				if (S in Keywords) {
-					return (KWtk, S);
-				} else {
-					return (IDtk, S);
-				}
-			} else {
-				return (token(nextState), S);
-			}
-		} else {
-			// not final
-			state:=nextState;
-     			append(S, nextChar);
-		       	nextChar=getchar();	
-		}
-	}
-
-}
 */
 /* Lexical Analyzer (Scanner) code was kindly and educationally borrowed from Geeksforgeeks.org: https://www.geeksforgeeks.org/lexical-analyzer-in-cpp/ */
 
