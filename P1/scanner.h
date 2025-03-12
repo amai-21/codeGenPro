@@ -11,7 +11,7 @@ using namespace std;
 
 TokenID finalToTokenType (int finalState); // function for converting large int to TokenType
 
-tokenStruct FADriver();
+tokenStruct FADriver(istream &fileForScanner);
 
 // column indices that correspond with the DFSA table's specified labels:
 int columnIndices(char c); 

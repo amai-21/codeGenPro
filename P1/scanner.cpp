@@ -3,21 +3,22 @@
 #include <vector>
 #include <unordered_map>
 #include <iostream>
+#include <fstream>
 #include "scanner.h"
 
 using namespace std;
 
-// Driver table:
+// Driver Table:
 const int numberOfStates = 6;
 const int numberOfColumns = 6;
 
 int driverTable[numberOfStates][numberOfColumns] {
-	{0, 1, 4, -1, 1001, 2},
-	{1002, 1002, 1002, 1002, 1002, 1002},
+	{0, 5, 1, -1, 1004, 3},
 	{-2, -2, -2, 2, -2, -2},
-	{1003, 1003, 1003, 3, 1003, 1003},
-	{-3, -3, -3, 5, -3, -3},
-	{1004, 1004, 1004, 5, 1004, 1004}
+	{1003, 1003, 1003, 2, 1003, 1003},
+	{-3, -3, -3, 4, -3, -3},
+	{1002, 1002, 1002, 4, 1002, 1002},
+	{1001, 1001, 1001, 1001, 1001, 1001}
 };
 
 // Global variable nextChar is set to next character in input.
@@ -68,16 +69,17 @@ int columnIndices(char c) {
 	return -1; // Error case for unknown characters.
 }
 
+
 // Function for converting large int to tokenType.
 TokenID finalToTokenType(int finalState) {
 	if (finalState == 1001) {
-		return EOFtk;
-	} else if (finalState == 1002) {
 		return t1Tk;
-	} else if (finalState == 1003) {
+	} else if (finalState == 1002) {
 		return t2Tk;
-	} else if (finalState == 1004) {
+	} else if (finalState == 1003) {
 		return t3Tk;
+	} else if (finalState == 1004) {
+		return EOFtk;
 	} else {
 		cout << "Error: Unknown final state " << finalState << endl;
 		exit(0);
@@ -87,80 +89,92 @@ TokenID finalToTokenType(int finalState) {
 //	return -1;
 }	
 
-tokenStruct FADriver() {
+
+tokenStruct FADriver(istream &fileForScanner) {
 	int state = 0; // initial state
 	int nextState;
 	string S = "";
+	static int lineNumber = 1;
+
+	tokenStruct currentToken;
+
+	// TODO Handle string input from scanner file.
+
+	currentToken.tokenInstance = S;
+	currentToken.lineNumber = lineNumber;	
 
 	nextChar nextCharObject;
 
-	nextCharObject.actualCharacter = getchar();
+//	nextCharObject.actualCharacter = getchar();
+
+	nextCharObject.actualCharacter = fileForScanner.get();
 
 	int driverTableColumn = columnIndices(nextCharObject.actualCharacter);
-	if (driverTableColumn == -1) {
-		cout << "Error: Invalid Character: '" << nextCharObject.actualCharacter << "'" << endl;
-		exit(0);
-	}
+//	if (driverTableColumn == -1) {
+//		cout << "Error: Invalid Character: '" << nextCharObject.actualCharacter << "'" << endl;
+//		exit(0);
+//	}
 
+
+	//tokenStruct tokenInformation;	
 
 	while (state < 1001) {
 		nextState = driverTable[state][driverTableColumn];
+
+		// Handle line Numbers:
+		if (nextCharObject.actualCharacter == '\n') {
+			lineNumber++;
+		}	
+
+		// Handling error states:
 		if (nextState == -1 || nextState == -2 || nextState == -3) {
-			cout << "Encountered error state" << endl;
+		//	cout << "Encountered error state" << endl;
+			cout << "SCANNER ERROR: Line:" << lineNumber << " " << S << endl;
 			exit(0);
 		}
-		
+	
+
 		//Final states	
 		if (nextState == 1002) { // Need t1 type lookup.
-			tokenStruct finalInformation;
-			finalInformation.tokenID = finalToTokenType(nextState);
-			finalInformation.tokenInstance = S;
-			
-			return finalInformation;
+			//tokenStruct finalInformation;
+			currentToken.tokenID = finalToTokenType(nextState);
+			currentToken.tokenInstance = S; 
+
+			return currentToken;
 
 		} else if (nextState == 1003) { // Need t2 type lookup.
-			tokenStruct finalInformation;
-			finalInformation.tokenID = finalToTokenType(nextState);
-			finalInformation.tokenInstance = S;
+			//tokenStruct finalInformation;
+			currentToken.tokenID = finalToTokenType(nextState);
+			currentToken.tokenInstance = S;
 
-			return finalInformation;
+			cout << "Hello" << endl;
+
+			return currentToken;
 
 		} else if (nextState == 1004) { // Need t3 type lookup.
-			tokenStruct finalInformation;
-			finalInformation.tokenID = finalToTokenType(nextState);
-			finalInformation.tokenInstance = S;
+			//tokenStruct finalInformation;
+			currentToken.tokenID = finalToTokenType(nextState);
+			currentToken.tokenInstance = S;
 
-			return finalInformation;
+			return currentToken;
 
 		} else if (nextState == 1001) { // For EOF token.
-			tokenStruct finalInformation;
-			finalInformation.tokenID = finalToTokenType(nextState);
-			finalInformation.tokenInstance = S;
+			//tokenStruct finalInformation;
+			currentToken.tokenID = finalToTokenType(nextState);
+			currentToken.tokenInstance = S;
 
-			return finalInformation;
+			return currentToken;
 
-		} else { // If not final state, keep scanning.
-			state = nextState;
-			S += nextCharObject.actualCharacter;
-			nextCharObject.actualCharacter = getchar(); // Move to the next character.
 		}
+
+	       	// If not final state, keep scanning.
+		state = nextState;
+		S += nextCharObject.actualCharacter;
+		nextCharObject.actualCharacter = fileForScanner.get(); // Move to the next character.
+		
 	}
 }
 
-/*
-
-
-
-int driverTable[numberOfStates][numberOfColumns] {
-	{0, 5, 1, -1, 1004, 3},
-	{-2, -2, -2, 2, -2, -2},
-	{1003, 1003, 1003, 2, 1003, 1003},
-	{-3, -3, -3, 4, -3, -3},
-	{1002, 1002, 1002, 4, 1002, 1002},
-	{1001, 1001, 1001, 1001, 1001, 1001}
-};
-
-*/
 /* Lexical Analyzer (Scanner) code was kindly and educationally borrowed from Geeksforgeeks.org: https://www.geeksforgeeks.org/lexical-analyzer-in-cpp/ */
 
 // Constructor: 

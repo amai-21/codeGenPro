@@ -11,6 +11,7 @@
 #include "traversals.h"
 #include "testScanner.h"
 
+
 using namespace std;
 
 int main(int argc, char* argv[]){
@@ -24,14 +25,16 @@ int main(int argc, char* argv[]){
 		ifstream fileName(inputFile);
 
 		if (fileName.peek() == EOF) {
-			cout << "Error: Missing Data." << endl;
+			//cout << "Error: Missing Data." << endl;
+			cout << "Program error file not found. " << endl;
 			exit(0);
 		}
 
 		string fileNameString;
 		
 		if (!fileName) {
-			cerr << "Error: Unable to open file " << argv[1] << endl;
+			//cerr << "Error: Unable to open file " << argv[1] << endl;
+			cout << "Program error file not found. " << endl;
 			return 1;
 		}
 
@@ -99,6 +102,13 @@ int main(int argc, char* argv[]){
 		ofstream p1FileLevelOrder(reNameLevelOrderFile);
 	       	traverseLevelOrder(root, treeLevel, p1FileLevelOrder);	
 		p1FileLevelOrder.close();
+
+
+		// <----------------------------Scanner Code-------------------------------------------->
+		ifstream fileForScanner(inputFile);
+		testScanner(fileForScanner);
+		fileForScanner.close();	
+				
 
 	} else if(argc == 1) { // Read from keyboard until simulated keyboard EOF
 		// Read input into temporary file, after which the rest of the program always processes file input.

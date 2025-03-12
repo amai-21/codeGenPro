@@ -7,12 +7,12 @@
 
 using namespace std;
 
-void testScanner() {
+void testScanner(istream &fileForScanner) {
 
 	// Display the token to the screen one per line:
 	tokenStruct testTokenObject;
        	do {
-		testTokenObject = FADriver();
+		testTokenObject = FADriver(fileForScanner);
 
 		cout << "Token: " << tokenNames[testTokenObject.tokenID] << " Instance: " << testTokenObject.tokenInstance << " Line Number: " << testTokenObject.lineNumber << endl;
 	} while (testTokenObject.tokenID != EOFtk);	
