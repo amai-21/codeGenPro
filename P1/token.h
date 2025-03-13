@@ -23,7 +23,7 @@ struct tokenStruct {
 };
 */
 
-enum TokenID {t1Tk, t2Tk, t3Tk, EOFtk};
+enum TokenID {t1Tk, t2Tk, t3Tk, EOFTk};
 
 extern string tokenNames[];
 

@@ -13,6 +13,8 @@ TokenID finalToTokenType (int finalState); // function for converting large int 
 
 tokenStruct FADriver(istream &fileForScanner);
 
+void secondScanner();
+
 // column indices that correspond with the DFSA table's specified labels:
 int columnIndices(char c); 
 

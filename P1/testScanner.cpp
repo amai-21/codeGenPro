@@ -14,7 +14,18 @@ void testScanner(istream &fileForScanner) {
        	do {
 		testTokenObject = FADriver(fileForScanner);
 
-		cout << "Token: " << tokenNames[testTokenObject.tokenID] << " Instance: " << testTokenObject.tokenInstance << " Line Number: " << testTokenObject.lineNumber << endl;
-	} while (testTokenObject.tokenID != EOFtk);	
+		cout << tokenNames[testTokenObject.tokenID] << "\t" << testTokenObject.tokenInstance;
+
+	//	if (!testTokenObject.tokenInstance.empty()) {
+	//		cout << "\t" << testTokenObject.tokenInstance;
+	//	}
+		       //	" Instance: " << testTokenObject.tokenInstance << " Line Number: " << testTokenObject.lineNumber << endl;
+		       
+		if (testTokenObject.tokenID != EOFTk) {
+			cout << "\t" << testTokenObject.lineNumber;
+		}
+		
+		cout << endl;
+	} while (testTokenObject.tokenID != EOFTk);	
 
 }

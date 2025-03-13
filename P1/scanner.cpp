@@ -45,8 +45,16 @@ int columnIndices(char c) {
 	if (isspace(c)) { // ws
 		return 0;
 	}
-	
-	if (c >= 33 && c <= 42) { // (!-))
+
+//	if (c == ' ' || c == '\t' ) {
+//		return 0;
+//	}
+
+	if (c == '+') {
+		return 5;
+	}	
+
+	if (c >= 33 && c <= 42 && c != '+') { // (!-))
 		return 1;
 	}
 
@@ -62,9 +70,9 @@ int columnIndices(char c) {
 		return 4;
 	}
 
-	if (c == '+') { // '+'
-		return 5;
-	}
+//	if (c == '+') { // '+'
+//		return 5;
+//	}
 
 	return -1; // Error case for unknown characters.
 }
@@ -79,7 +87,7 @@ TokenID finalToTokenType(int finalState) {
 	} else if (finalState == 1003) {
 		return t3Tk;
 	} else if (finalState == 1004) {
-		return EOFtk;
+		return EOFTk;
 	} else {
 		cout << "Error: Unknown final state " << finalState << endl;
 		exit(0);
@@ -89,7 +97,6 @@ TokenID finalToTokenType(int finalState) {
 //	return -1;
 }	
 
-
 tokenStruct FADriver(istream &fileForScanner) {
 	int state = 0; // initial state
 	int nextState;
@@ -97,9 +104,6 @@ tokenStruct FADriver(istream &fileForScanner) {
 	static int lineNumber = 1;
 
 	tokenStruct currentToken;
-
-	// TODO Handle string input from scanner file.
-
 	currentToken.tokenInstance = S;
 	currentToken.lineNumber = lineNumber;	
 
@@ -108,8 +112,9 @@ tokenStruct FADriver(istream &fileForScanner) {
 //	nextCharObject.actualCharacter = getchar();
 
 	nextCharObject.actualCharacter = fileForScanner.get();
+	nextCharObject.labelColumnNumber = columnIndices(nextCharObject.actualCharacter);
 
-	int driverTableColumn = columnIndices(nextCharObject.actualCharacter);
+//	int driverTableColumn = columnIndices(nextCharObject.actualCharacter);
 //	if (driverTableColumn == -1) {
 //		cout << "Error: Invalid Character: '" << nextCharObject.actualCharacter << "'" << endl;
 //		exit(0);
@@ -118,12 +123,18 @@ tokenStruct FADriver(istream &fileForScanner) {
 
 	//tokenStruct tokenInformation;	
 
+//	nextCharObject.labelColumnNumber = columnIndices(nextCharObject.actualCharacter);
+
 	while (state < 1001) {
-		nextState = driverTable[state][driverTableColumn];
+		nextState = driverTable[state][nextCharObject.labelColumnNumber];
+
+		int tokenLineNumber = lineNumber;
 
 		// Handle line Numbers:
 		if (nextCharObject.actualCharacter == '\n') {
+//			currentToken.lineNumber = lineNumber;
 			lineNumber++;
+//			continue;
 		}	
 
 		// Handling error states:
@@ -133,7 +144,7 @@ tokenStruct FADriver(istream &fileForScanner) {
 			exit(0);
 		}
 	
-
+/*
 		//Final states	
 		if (nextState == 1002) { // Need t1 type lookup.
 			//tokenStruct finalInformation;
@@ -146,9 +157,6 @@ tokenStruct FADriver(istream &fileForScanner) {
 			//tokenStruct finalInformation;
 			currentToken.tokenID = finalToTokenType(nextState);
 			currentToken.tokenInstance = S;
-
-			cout << "Hello" << endl;
-
 			return currentToken;
 
 		} else if (nextState == 1004) { // Need t3 type lookup.
@@ -161,18 +169,40 @@ tokenStruct FADriver(istream &fileForScanner) {
 		} else if (nextState == 1001) { // For EOF token.
 			//tokenStruct finalInformation;
 			currentToken.tokenID = finalToTokenType(nextState);
-			currentToken.tokenInstance = S;
+			//currentToken.tokenInstance = S;
+			currentToken.tokenInstance = "";
+		//	if (nextCharObject.actualCharacter == EOF) {
+		//		currentToken.lineNumber = lineNumber; // Prevent unintentional incrementing after EOF.
+		//	}
 
 			return currentToken;
 
+		}
+		*/
+
+		if (nextState >= 1001) {
+			currentToken.tokenID = finalToTokenType(nextState);
+			currentToken.lineNumber = tokenLineNumber;
+
+			if (nextState != 1004) { // If NOT EOF, store the token instance.
+				S += nextCharObject.actualCharacter;
+				currentToken.tokenInstance = S;
+			} else {
+				// Ensure EOFTk has an empty instance to prevent printing.
+				currentToken.tokenInstance = ""; 
+			}
+
+			return currentToken;
 		}
 
 	       	// If not final state, keep scanning.
 		state = nextState;
 		S += nextCharObject.actualCharacter;
 		nextCharObject.actualCharacter = fileForScanner.get(); // Move to the next character.
-		
+		nextCharObject.labelColumnNumber = columnIndices(nextCharObject.actualCharacter);
 	}
+
+	return currentToken;
 }
 
 /* Lexical Analyzer (Scanner) code was kindly and educationally borrowed from Geeksforgeeks.org: https://www.geeksforgeeks.org/lexical-analyzer-in-cpp/ */
