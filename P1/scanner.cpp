@@ -22,14 +22,6 @@ int driverTable[numberOfStates][numberOfColumns] {
 	{1001, 1001, 1001, 1001, 1001, 1001}
 };
 
-// Global variable nextChar is set to next character in input.
-//char nextChar;
-
-struct nextChar {
-	char actualCharacter;
-	int  labelColumnNumber;
-};
-
 /* Function for handling indices that map to a specific label:
 
 	ws = 0
@@ -41,15 +33,12 @@ struct nextChar {
 
  */
 
+// Function that matches a character with a specific column label according to the driver table above.
 int columnIndices(char c) {
 
 	if (isspace(c)) { // ws
 		return 0;
 	}
-
-//	if (c == ' ' || c == '\t' ) {
-//		return 0;
-//	}
 
 	if (c == '+') {
 		return 5;
@@ -70,10 +59,6 @@ int columnIndices(char c) {
 	if (c == EOF) { // EOF
 		return 4;
 	}
-
-//	if (c == '+') { // '+'
-//		return 5;
-//	}
 
 	return -1; // Error case for unknown characters.
 }
@@ -98,13 +83,18 @@ TokenID finalToTokenType(int finalState) {
 //	return -1;
 }	
 
+// Lookahead designed as a struct.
+struct nextChar {
+	char actualCharacter;
+	int labelColumnNumber;
+};
+
+// Driver function that takes in a file and then starts scanning the associated strings and see if it's a valid token.
 tokenStruct FADriver(istream &fileForScanner) {
 	int state = 0; // initial state
 	int nextState;
 	string S = "";
 	static int lineNumber = 1;
-
-	
 
 	tokenStruct currentToken;
 	currentToken.tokenInstance = S;
@@ -119,32 +109,34 @@ tokenStruct FADriver(istream &fileForScanner) {
 
 		int tokenLineNumber = lineNumber;
 
-		//cout << "DEBUG: " << S << " at Line: " << tokenLineNumber << " State: " << state << endl;
-
 		// Handle line Numbers:
 		if (nextCharObject.actualCharacter == '\n') {
 			lineNumber++;
-		}	
+		}
 
-		// Handling error states:
+		// Handling error states: 
 		if (nextState == -1 || nextState == -2 || nextState == -3) {
-		//	cout << "Encountered error state" << endl;
-			cout << "SCANNER ERROR: Line:" << lineNumber << " " << S << endl;
+			cout << "SCANNER ERROR: Line:" << lineNumber << " Character: " << nextCharObject.actualCharacter << endl;
 			exit(0);
 		}
 	
-		if (nextState >= 1001) {
+		if (nextState >= 1001) { // Return the token once we've reached a final state.
 			currentToken.tokenID = finalToTokenType(nextState);
 			currentToken.lineNumber = tokenLineNumber;
 
 			currentToken.tokenInstance = S;
+
+			if (!isspace(nextCharObject.actualCharacter)) { // For if a line of string is merged. Put that character back in so that it gets read ONLY if it isn't a whitespace.
+				fileForScanner.unget();
+			}
+
 			return currentToken;
 		}
+
 
 		state = nextState;
 		S += nextCharObject.actualCharacter;
 		nextCharObject.actualCharacter = fileForScanner.get(); // Move to the next character.
-
 		nextCharObject.labelColumnNumber = columnIndices(nextCharObject.actualCharacter);
 	}
 
