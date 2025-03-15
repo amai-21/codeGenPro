@@ -1,6 +1,7 @@
 // testScanner.cpp
  
 #include <iostream>
+#include <algorithm>
 #include "testScanner.h"
 #include "scanner.h"
 #include "token.h"
@@ -13,19 +14,9 @@ void testScanner(istream &fileForScanner) {
 	tokenStruct testTokenObject;
        	do {
 		testTokenObject = FADriver(fileForScanner);
+	
+		cout << tokenNames[testTokenObject.tokenID] << "\t" << testTokenObject.tokenInstance << "\t" << testTokenObject.lineNumber << endl;
 
-		cout << tokenNames[testTokenObject.tokenID] << "\t" << testTokenObject.tokenInstance;
-
-	//	if (!testTokenObject.tokenInstance.empty()) {
-	//		cout << "\t" << testTokenObject.tokenInstance;
-	//	}
-		       //	" Instance: " << testTokenObject.tokenInstance << " Line Number: " << testTokenObject.lineNumber << endl;
-		       
-		if (testTokenObject.tokenID != EOFTk) {
-			cout << "\t" << testTokenObject.lineNumber;
-		}
-		
-		cout << endl;
 	} while (testTokenObject.tokenID != EOFTk);	
 
 }

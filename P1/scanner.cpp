@@ -1,5 +1,6 @@
 // scanner.cpp
 #include <string>
+#include <cctype>
 #include <vector>
 #include <unordered_map>
 #include <iostream>
@@ -103,38 +104,26 @@ tokenStruct FADriver(istream &fileForScanner) {
 	string S = "";
 	static int lineNumber = 1;
 
+	
+
 	tokenStruct currentToken;
 	currentToken.tokenInstance = S;
 	currentToken.lineNumber = lineNumber;	
 
 	nextChar nextCharObject;
-
-//	nextCharObject.actualCharacter = getchar();
-
 	nextCharObject.actualCharacter = fileForScanner.get();
 	nextCharObject.labelColumnNumber = columnIndices(nextCharObject.actualCharacter);
-
-//	int driverTableColumn = columnIndices(nextCharObject.actualCharacter);
-//	if (driverTableColumn == -1) {
-//		cout << "Error: Invalid Character: '" << nextCharObject.actualCharacter << "'" << endl;
-//		exit(0);
-//	}
-
-
-	//tokenStruct tokenInformation;	
-
-//	nextCharObject.labelColumnNumber = columnIndices(nextCharObject.actualCharacter);
 
 	while (state < 1001) {
 		nextState = driverTable[state][nextCharObject.labelColumnNumber];
 
 		int tokenLineNumber = lineNumber;
 
+		//cout << "DEBUG: " << S << " at Line: " << tokenLineNumber << " State: " << state << endl;
+
 		// Handle line Numbers:
 		if (nextCharObject.actualCharacter == '\n') {
-//			currentToken.lineNumber = lineNumber;
 			lineNumber++;
-//			continue;
 		}	
 
 		// Handling error states:
@@ -144,176 +133,21 @@ tokenStruct FADriver(istream &fileForScanner) {
 			exit(0);
 		}
 	
-/*
-		//Final states	
-		if (nextState == 1002) { // Need t1 type lookup.
-			//tokenStruct finalInformation;
-			currentToken.tokenID = finalToTokenType(nextState);
-			currentToken.tokenInstance = S; 
-
-			return currentToken;
-
-		} else if (nextState == 1003) { // Need t2 type lookup.
-			//tokenStruct finalInformation;
-			currentToken.tokenID = finalToTokenType(nextState);
-			currentToken.tokenInstance = S;
-			return currentToken;
-
-		} else if (nextState == 1004) { // Need t3 type lookup.
-			//tokenStruct finalInformation;
-			currentToken.tokenID = finalToTokenType(nextState);
-			currentToken.tokenInstance = S;
-
-			return currentToken;
-
-		} else if (nextState == 1001) { // For EOF token.
-			//tokenStruct finalInformation;
-			currentToken.tokenID = finalToTokenType(nextState);
-			//currentToken.tokenInstance = S;
-			currentToken.tokenInstance = "";
-		//	if (nextCharObject.actualCharacter == EOF) {
-		//		currentToken.lineNumber = lineNumber; // Prevent unintentional incrementing after EOF.
-		//	}
-
-			return currentToken;
-
-		}
-		*/
-
 		if (nextState >= 1001) {
 			currentToken.tokenID = finalToTokenType(nextState);
 			currentToken.lineNumber = tokenLineNumber;
 
-			if (nextState != 1004) { // If NOT EOF, store the token instance.
-				S += nextCharObject.actualCharacter;
-				currentToken.tokenInstance = S;
-			} else {
-				// Ensure EOFTk has an empty instance to prevent printing.
-				currentToken.tokenInstance = ""; 
-			}
-
+			currentToken.tokenInstance = S;
 			return currentToken;
 		}
 
-	       	// If not final state, keep scanning.
 		state = nextState;
 		S += nextCharObject.actualCharacter;
 		nextCharObject.actualCharacter = fileForScanner.get(); // Move to the next character.
+
 		nextCharObject.labelColumnNumber = columnIndices(nextCharObject.actualCharacter);
 	}
 
 	return currentToken;
 }
-
-/* Lexical Analyzer (Scanner) code was kindly and educationally borrowed from Geeksforgeeks.org: https://www.geeksforgeeks.org/lexical-analyzer-in-cpp/ */
-
-// Constructor: 
-scanner::scanner(const string &sourceCode) 
-	: input(sourceCode)
-	, position(0)
-	{  
-	initTypeT1();
-	}	
-
-// Function to initialize the typet1 map.
-void scanner::initTypeT1 () {
-	typet1["!"] = TokenID::t1Tk;
-	typet1["\""] = TokenID::t1Tk;
-	typet1["#"] = TokenID::t1Tk;
-	typet1["$"] = TokenID::t1Tk;
-	typet1["%"] = TokenID::t1Tk;
-	typet1["&"] = TokenID::t1Tk;
-	typet1["'"] = TokenID::t1Tk;
-	typet1["("] = TokenID::t1Tk;
-	typet1[")"] = TokenID::t1Tk;
-}
-	
-// Function to check if a character is a digit.
-bool isDigit(char c) {
-	return c >= '0' && c <= '9';
-}
-
-// Function to check if a character is a letter.
-bool isLetter(char c) {
-	return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');	
-}
-
-// Function to check if a character is a new line:
-bool isNewLine(char c) {
-	return c == '\n';
-}	
-
-
-string scanner::getNextToken() {
-
-	// Define a tokenStruct object:
-	tokenStruct tokenObject; 
-	
-	tokenObject.lineNumber = 1;
-
-	size_t start = position;
-
-	// Check for type t2 tokens:
-	if (input[position] == '+') {
-		position++;
-		
-		// Increment line number if new line.
-		if (isNewLine(input[position])) {
-			tokenObject.lineNumber++;
-		}
-
-		// Check if next character is a digit:
-		if (isDigit(input[position])) {
-			// Keep going.	
-			position++; 
-		} else {
-			cout << "SCANNER ERROR. String input: " << input << "Line Number: " << tokenObject.lineNumber << endl; // Include line number right after.
-	       		exit(0);		       
-		}
- 	
-		if (isNewLine(input[position])) {
-			tokenObject.lineNumber++;
-		}
-
-		while (position < input.length()) {
-			position++;
-
-			if (isNewLine(input[position])) {
-				tokenObject.lineNumber++;		
-			}
-
-			if (!isDigit(input[position])) {
-				cout << "SCANNER ERROR. String input: " << input << "Line Number: " << tokenObject.lineNumber << endl;
-				exit(0);
-			}
-		}		
-
-		return input.substr(start, position - start);
-
-
-	} else if (isLetter(input[position])) { // Check for type t3 tokens:
-		position++;
-		// Check if next character is a digit.
-		if (isDigit(input[position])) {
-			// Keep going.
-			position++; 
-		} else {
-			cout << "SCANNER ERROR. String input: " << input << "Line Number: " << tokenObject.lineNumber << endl;
-			exit(0);
-		}
-
-		while (position < input.length()) {
-			position++;
-			if (!isDigit(input[position])) {
-				cout << "SCANNER ERROR. String input: " << input << "Line Number: " << tokenObject.lineNumber << endl;
-				exit(0);	
-			}
-		}
-
-		return input.substr(start, position - start);	
-	} else {
-		cout << "SCANNER ERROR. String input: " << input << "Line Number: " << tokenObject.lineNumber << endl;
-		exit(0); 
-	}
-}	
 
