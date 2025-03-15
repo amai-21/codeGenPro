@@ -1,4 +1,5 @@
 //main.cpp
+// Author: Andy Mai - Professor: Dr. Sharlee Climer - Program Translation Project.
 #include <iostream>
 #include <fstream> // For handling an input file from within the command line.
 #include <string> // For using getline(), specifically for handling keyboard input from the command line.
@@ -106,13 +107,12 @@ int main(int argc, char* argv[]){
 
 		// <----------------------------Scanner Code-------------------------------------------->
 		ifstream fileForScanner(inputFile);
-		testScanner(fileForScanner);
+		testScanner(fileForScanner); // Call test scanner.
 		fileForScanner.close();	
 				
 
 	} else if(argc == 1) { // Read from keyboard until simulated keyboard EOF
 		// Read input into temporary file, after which the rest of the program always processes file input.
-		//ofstream tempFileNameCreate("temporaryFile.txt"); 
 		ofstream tempFileNameCreate("p1TemporaryFile");
 		
 		string keyboardReadingText;
@@ -166,9 +166,6 @@ int main(int argc, char* argv[]){
 			}
 		}	
 		
-		//tempFileNameRead.clear();
-		//tempFileNameRead.seekg(0);
-
 		const string::size_type treeLevel = 0;
 		// Pre Order Traversal Call:
 		//cout << "Preorder traversal: <------------------------------------------>" << endl;
@@ -191,16 +188,23 @@ int main(int argc, char* argv[]){
 		traverseLevelOrder(root, treeLevel, p1FileLevelOrder);	
 		p1FileLevelOrder.close();
 
-		tempFileNameRead.close();
+		//tempFileNameRead.close();
+
+		/*--------------------------Calling testScanner To Invoke The Scanner--------------------------------------*/
+		//ifstream fileForScanner(tempFileNameRead);
+		//testScanner(fileForScanner);
+		//fileForScanner.close();
+		testScanner(tempFileNameRead);
+		tempFileNameRead.close();	
 
 	} else if(argc > 2) { // If user input 3 or more strings, display an error:
-		cout << "P0 ";
+		cout << "P1 ";
 		for (int i = 0; i < argc - 1; i++) {
 			cout << "file" << (i + 1) << " ";
 		}
 		cout << endl;
 		cout << "Fatal: Improper usage" <<endl;
-		cout << "Usage: P0 [filename]" << endl;
+		cout << "Usage: P1 [filename]" << endl;
 		exit(0);
 	}
 

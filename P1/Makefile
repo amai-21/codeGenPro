@@ -9,7 +9,7 @@ P1: main.o buildTree.o traversals.o scanner.o testScanner.o token.o
 	$(CC) $(CFLAGS) -o P1 main.o buildTree.o traversals.o scanner.o testScanner.o token.o
 
 #Object file target
-main.o: main.cpp buildTree.h node.h traversals.h
+main.o: main.cpp buildTree.h node.h traversals.h testScanner.h 
 	$(CC) $(CFLAGS) -c main.cpp
 
 buildTree.o: buildTree.cpp buildTree.h node.h

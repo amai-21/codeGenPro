@@ -79,8 +79,6 @@ TokenID finalToTokenType(int finalState) {
 		exit(0);
 	}
 
-
-//	return -1;
 }	
 
 // Lookahead designed as a struct.
@@ -88,6 +86,7 @@ struct nextChar {
 	char actualCharacter;
 	int labelColumnNumber;
 };
+
 
 // Driver function that takes in a file and then starts scanning the associated strings and see if it's a valid token.
 tokenStruct FADriver(istream &fileForScanner) {
@@ -133,11 +132,31 @@ tokenStruct FADriver(istream &fileForScanner) {
 			return currentToken;
 		}
 
+		// Code to filter out comments that look like this: * Example text. *
+		if (nextCharObject.actualCharacter == '*') {
+			nextCharObject.actualCharacter = fileForScanner.get(); // Move past the first *.
 
-		state = nextState;
-		S += nextCharObject.actualCharacter;
-		nextCharObject.actualCharacter = fileForScanner.get(); // Move to the next character.
-		nextCharObject.labelColumnNumber = columnIndices(nextCharObject.actualCharacter);
+			while (nextCharObject.actualCharacter != '*') {
+				nextCharObject.actualCharacter = fileForScanner.get();
+			}
+
+			nextCharObject.actualCharacter = fileForScanner.get(); // Move past the second *.
+
+			if (nextCharObject.actualCharacter == '\n') {
+				lineNumber++;
+			}
+
+			nextCharObject.actualCharacter = fileForScanner.get();
+			nextCharObject.labelColumnNumber = columnIndices(nextCharObject.actualCharacter);
+
+
+			continue;
+		} 
+			state = nextState;
+			S += nextCharObject.actualCharacter;
+			nextCharObject.actualCharacter = fileForScanner.get(); // Move to the next character.
+			nextCharObject.labelColumnNumber = columnIndices(nextCharObject.actualCharacter);
+		
 	}
 
 	return currentToken;
