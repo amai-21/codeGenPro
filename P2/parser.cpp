@@ -1,30 +1,40 @@
-// parser.cpp
+// testScanner.cpp
+ 
+#include <iostream>
 #include "parser.h"
-#include "token.h"
 #include "scanner.h"
+#include "token.h"
 
-void parser() {
-	tokenStruct parseTokenObject;
+using namespace std;
 
+// TODO build nonterminal functions
+// TODO implement the nonterminal functions in your parser function.
 
-	parseTokenObject = FADriver();
-	S();
+/*
+void testScanner(istream &fileForScanner) {
 
+	// Display the token to the screen one per line:
+	tokenStruct testTokenObject;
+       	do {
+		testTokenObject = FADriver(fileForScanner);
 	
-	if (parseTokenObject.tokenID == EOFTk) {
-		// continue, parse was okay.
+		cout << tokenNames[testTokenObject.tokenID] << "\t" << testTokenObject.tokenInstance << "\t" << testTokenObject.lineNumber << endl;
 
-	}
-	
+	} while (testTokenObject.tokenID != EOFTk);	
+
+}
+*/
+
+void parser(istream &fileForScanner){
+	// Display the token to the screen one per line:
+	tokenStruct testTokenObject;
+	do {
+		testTokenObject = FADriver(fileForScanner);
+
+		cout << tokenNames[testTokenObject.tokenID] << "\t" << testTokenObject.tokenInstance << "\t" << testTokenObject.lineNumber << endl;
+	} while (testTokenObject.tokenID != EOFTk);	
 
 
 }
 
-void S() {
-
-}
-
-void A() {
-
-}
 

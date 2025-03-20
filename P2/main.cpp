@@ -10,7 +10,6 @@
 #include "buildTree.h"
 #include "node.h"
 #include "traversals.h"
-#include "testScanner.h"
 #include "parser.h"
 
 using namespace std;
@@ -105,9 +104,9 @@ int main(int argc, char* argv[]){
 		p1FileLevelOrder.close();
 
 
-		// <----------------------------Scanner Code-------------------------------------------->
+		// <----------------------------Parser Code-------------------------------------------->
 		ifstream fileForScanner(inputFile);
-		testScanner(fileForScanner); // Call test scanner.
+		parser(fileForScanner); // Call parser.
 		fileForScanner.close();	
 				
 
@@ -194,7 +193,8 @@ int main(int argc, char* argv[]){
 		//ifstream fileForScanner(tempFileNameRead);
 		//testScanner(fileForScanner);
 		//fileForScanner.close();
-		testScanner(tempFileNameRead);
+		// testScanner(tempFileNameRead);
+		parser(tempFileNameRead); 
 		tempFileNameRead.close();	
 
 	} else if(argc > 2) { // If user input 3 or more strings, display an error:
