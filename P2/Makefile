@@ -5,8 +5,8 @@ CC = g++
 CFLAGS = -g -Wall -std=c++11 
 
 #Target executable
-P2: main.o buildTree.o traversals.o scanner.o token.o parser.o 
-	$(CC) $(CFLAGS) -o P2 main.o buildTree.o traversals.o scanner.o token.o parser.o
+P2: main.o buildTree.o traversals.o scanner.o token.o parser.o testTree.o
+	$(CC) $(CFLAGS) -o P2 main.o buildTree.o traversals.o scanner.o token.o parser.o testTree.o
 
 #Object file target
 main.o: main.cpp buildTree.h node.h traversals.h parser.h
@@ -29,6 +29,9 @@ token.o: token.cpp token.h
 
 parser.o: parser.cpp parser.h token.h scanner.h
 	$(CC) $(CFLAGS) -c parser.cpp
+
+testTree.o: testTree.cpp testTree.h
+	$(CC) $(CFLAGS) -c testTree.cpp
 
 #clean rule:
 clean:

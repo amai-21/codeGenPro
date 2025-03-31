@@ -11,20 +11,20 @@ void parser(istream &fileForScanner);
 
 // BNF nonterminals as functions: 
 
-void S();
+void S(istream &fileForScanner);
 
-void A();
+void A(istream &fileForScanner);
 
-void B();
+void B(istream &fileForScanner);
 
-void C();
+void C(istream &fileForScanner);
 
-void D();
+void D(istream &fileForScanner);
 
-void E();
+void E(istream &fileForScanner);
 
-void F();
+void F(istream &fileForScanner);
 
-void G();
+void G(istream &fileForScanner);
 
 #endif
