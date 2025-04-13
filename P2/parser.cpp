@@ -9,11 +9,24 @@ using namespace std;
 
 tokenStruct parserTokenObject; // Declare global parserTokenObject for enduring values throughout each nonterminal calls.
 
-void parser(istream &fileForScanner){
+node_t* parser(istream &fileForScanner){
 
+	node_t* root;
 	parserTokenObject = FADriver(fileForScanner);
-	S(fileForScanner); //S starting non-terminal.
+	//S(fileForScanner); //S starting non-terminal.
 
+	root = S(fileForScanner);
+	
+	if (parserTokenObject.tokenID == EOFTk) {
+		cout << "Parsing went Ok. " << endl;
+	} else {
+		cout << "We encountered an error. " << parserTokenObject.tokenInstance << " " << parserTokenObject.lineNumber << endl;
+		return root;
+	}
+
+	
+
+	
 }
 /*
  BNF: 
@@ -29,62 +42,84 @@ void parser(istream &fileForScanner){
 */
 
 
-void S(istream &fileForScanner){
-	A(fileForScanner); // Processing A.
+node_t* S(istream &fileForScanner){
+	node_t* SNode = GetNewNode("S", 1, {});
+
+	SNode->left = A(fileForScanner); // Processing A as first child.
 	
 	if (parserTokenObject.tokenInstance == "(") { // consume (
+		SNode->stringsSeen.push_back(parserTokenObject.tokenInstance); // Store ( in node.
 		parserTokenObject = FADriver(fileForScanner);
-		B(fileForScanner);
-		B(fileForScanner);
+
+		node_t* bSubTree1 = B(fileForScanner); // next child.
+		node_t* bSubTree2 = B(fileForScanner); // next child.
+
+		SNode->left->right = bSubTree1; // Attach node to first B non-terminal.
+		bSubTree1->right = bSubTree2; // Attach this node tothe second B non-terminal.
 
 		if (parserTokenObject.tokenInstance == ")") {
+			SNode->stringsSeen.push_back(parserTokenObject.tokenInstance);
 			parserTokenObject = FADriver(fileForScanner);
+			return SNode;
 		} else {
 			// error:
-			exit(0); 
+			cerr << "Parser Error: Expected ')' but got" << parserTokenObject.tokenInstance << " on line: " << parserTokenObject.lineNumber << endl; 
+			return SNode; 
 		}
 	} else {
 		// error:
-		exit(0); 
+		cerr << "Parser Error: Expected '(' but got " << parserTokenObject.tokenInstance << " on line: " << parserTokenObject.lineNumber << endl; 
+		return SNode; 
 	}
+	
+
+
 
 }
 
-void A(istream &fileForScanner) {
+node_t* A(istream &fileForScanner) {
+	node_t* ANode = GetNewNode("A", 1, {});
+
 	if (parserTokenObject.tokenInstance == "\"") {
+		ANode->stringsSeen.push_back(parserTokenObject.tokenInstance); // Store "
 		parserTokenObject = FADriver(fileForScanner);
+
 		if (parserTokenObject.tokenID == t2Tk) {
-			return;
+			ANode->stringsSeen.push_back(parserTokenObject.tokenInstance);
+			parserTokenObject = FADriver(fileForScanner);
+			return ANode;
 		} else {
 			// error
-			exit(0); 
+			cerr << "Parser Error: Expected ')' but got " << parserTokenObject.tokenInstance << " on line: " << parserTokenObject.lineNumber << endl; 
+			return ANode; 
 		}	
 	} else { // Predicts A -> empty.
-		return;
+		return NULL;
 	}
 }
 
-void B(istream &fileForScanner) {
+node_t* B(istream &fileForScanner) {
 	// Implement S | C | D | E | G non-terminals.
 	
        // Predict S
        if (parserTokenObject.tokenInstance == "\"" || parserTokenObject.tokenInstance == "(") {
-		S(fileForScanner); // Call non-terminal S.
+	      // BNode->stringsSeen.push_back(parserTokenObject.tokenInstance); // Store " or (
+		return S(fileForScanner); // Call non-terminal S.
        }	 
 
  	// Predict C
        else if (parserTokenObject.tokenInstance == "#" || parserTokenObject.tokenInstance == "!") {
-		C(fileForScanner); // Call non-terminal C.
+		return C(fileForScanner); // Call non-terminal C.
 	}	
 
 	// Predict D
        else if (parserTokenObject.tokenInstance == "$") {
-		D(fileForScanner); // Call non-terminal D.
+		return D(fileForScanner); // Call non-terminal D.
 	}	
 
 	// Predict E
        else if (parserTokenObject.tokenInstance == "'") {
-		E(fileForScanner); // Call Non-terminal E
+		return E(fileForScanner); // Call Non-terminal E
 	}
 
        // Predict G
@@ -94,45 +129,60 @@ void B(istream &fileForScanner) {
 		
 		if (parserTokenObject.tokenInstance == "%") {
 			parserTokenObject = previousSave;
-			G(fileForScanner);
+			return G(fileForScanner);
 		} else {
-			exit(0);
+			// Look ahead to see if it's F.
+			parserTokenObject = previousSave;
+			
+			cerr << "Parser Error in B() when trying to call G. Token involved: " << parserTokenObject.tokenInstance << " on line " << parserTokenObject.lineNumber << endl;
+			exit(1);
 		}
        } else {
-		cout << "Error from non-terminal B." << endl;
-		exit(0);
+		cerr << "Error from non-terminal B. Token involved: " << parserTokenObject.tokenInstance << " on line " << parserTokenObject.lineNumber << endl;
+		exit(1);
        }
 
 		
 	 
 }
 
-void C(istream &fileForScanner) {
+node_t* C(istream &fileForScanner) {
+	node_t* CNode = GetNewNode("C", 1, {});
+
 	if (parserTokenObject.tokenInstance == "#") {
+		CNode->stringsSeen.push_back(parserTokenObject.tokenInstance);
 		parserTokenObject = FADriver(fileForScanner);
+
 		if (parserTokenObject.tokenID == t2Tk) {
-			return;
+			CNode->stringsSeen.push_back(parserTokenObject.tokenInstance);
+			parserTokenObject = FADriver(fileForScanner);
+			return CNode;
 		} else {
 			// error
-			exit(0); 
+			cerr << "Error from non-terminal C. Token involved: " << parserTokenObject.tokenInstance << " on line " << parserTokenObject.lineNumber << endl;	 
+			exit(1); 
 		}
 	} else if (parserTokenObject.tokenInstance == "!") {
+		CNode-> stringsSeen.push_back(parserTokenObject.tokenInstance);
 		parserTokenObject = FADriver(fileForScanner);
 		F(fileForScanner);
 	} else {
-		cout << "Error from non-terminal C()" << endl;
-		exit(0);
+		cerr << "Error from non-terminal C. Token involved: " << parserTokenObject.tokenInstance << " on line " << parserTokenObject.lineNumber << endl;
+		exit(1);
 	}
 }
 
-void D(istream &fileForScanner) {
+node_t* D(istream &fileForScanner) {
 	if (parserTokenObject.tokenInstance == "$") {
 		parserTokenObject = FADriver(fileForScanner); // Consume $
 		F(fileForScanner);
+	} else {
+		cerr << "Error from non-terminal D. Token involved: " << parserTokenObject.tokenInstance << " on line " << parserTokenObject.lineNumber << endl;
+		exit(1);
 	}
 }
 
-void E(istream &fileForScanner) {
+node_t* E(istream &fileForScanner) {
 
 	if (parserTokenObject.tokenInstance == "'") {
 		parserTokenObject = FADriver(fileForScanner); // Consume '
@@ -141,12 +191,12 @@ void E(istream &fileForScanner) {
 		F(fileForScanner);
 		B(fileForScanner);
 	} else {
-		cout << "Error from non-terminal E()" << endl;
-		exit(0);
+		cerr << "Error from non-terminal E(). Token involved: " << parserTokenObject.tokenInstance << " on line " << parserTokenObject.lineNumber << endl;
+		exit(1);
 	}
 }
 
-void F(istream &fileForScanner) {
+node_t* F(istream &fileForScanner) {
 	if (parserTokenObject.tokenID == t2Tk) {
 		parserTokenObject = FADriver(fileForScanner);
 		return;
@@ -158,21 +208,21 @@ void F(istream &fileForScanner) {
 		F(fileForScanner);
 		F(fileForScanner);
 	} else {
-		cout << "Error from non-terminal F()" << endl;
-		exit(0);
+		cerr << "Error from non-terminal F(). Token involved: " << parserTokenObject.tokenInstance << " on line " << parserTokenObject.lineNumber << endl;
+		exit(1);
 	}
 
 }
 
-void G(istream &fileForScanner) {
+node_t* G(istream &fileForScanner) {
 	if (parserTokenObject.tokenID == t2Tk) {
 		parserTokenObject = FADriver(fileForScanner);
 		if (parserTokenObject.tokenInstance == "%") {
 			parserTokenObject = FADriver(fileForScanner); // Consume %
 			F(fileForScanner);
 		} else {
-			cout << "Error in G(): Expected '%' after t2." << endl;
-			exit(0);
+			cerr << "Error from non-terminal G. Token involved: " << parserTokenObject.tokenInstance << " on line " << parserTokenObject.lineNumber << endl;
+			exit(1);
 		}
 	}
 }
