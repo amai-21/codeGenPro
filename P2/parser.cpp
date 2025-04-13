@@ -21,12 +21,8 @@ node_t* parser(istream &fileForScanner){
 		cout << "Parsing went Ok. " << endl;
 	} else {
 		cout << "We encountered an error. " << parserTokenObject.tokenInstance << " " << parserTokenObject.lineNumber << endl;
-		return root;
 	}
-
-	
-
-	
+	return root;
 }
 /*
  BNF: 
@@ -49,7 +45,7 @@ node_t* S(istream &fileForScanner){
 	
 	if (parserTokenObject.tokenInstance == "(") { // consume (
 		SNode->stringsSeen.push_back(parserTokenObject.tokenInstance); // Store ( in node.
-		parserTokenObject = FADriver(fileForScanner);
+		parserTokenObject = FADriver(fileForScanner); // Process (
 
 		node_t* bSubTree1 = B(fileForScanner); // next child.
 		node_t* bSubTree2 = B(fileForScanner); // next child.
@@ -58,8 +54,8 @@ node_t* S(istream &fileForScanner){
 		bSubTree1->right = bSubTree2; // Attach this node tothe second B non-terminal.
 
 		if (parserTokenObject.tokenInstance == ")") {
-			SNode->stringsSeen.push_back(parserTokenObject.tokenInstance);
-			parserTokenObject = FADriver(fileForScanner);
+			SNode->stringsSeen.push_back(parserTokenObject.tokenInstance); // Store ) in node.
+			parserTokenObject = FADriver(fileForScanner); // Process ).
 			return SNode;
 		} else {
 			// error:
@@ -156,75 +152,105 @@ node_t* C(istream &fileForScanner) {
 		if (parserTokenObject.tokenID == t2Tk) {
 			CNode->stringsSeen.push_back(parserTokenObject.tokenInstance);
 			parserTokenObject = FADriver(fileForScanner);
-			return CNode;
 		} else {
 			// error
 			cerr << "Error from non-terminal C. Token involved: " << parserTokenObject.tokenInstance << " on line " << parserTokenObject.lineNumber << endl;	 
-			exit(1); 
 		}
 	} else if (parserTokenObject.tokenInstance == "!") {
 		CNode-> stringsSeen.push_back(parserTokenObject.tokenInstance);
 		parserTokenObject = FADriver(fileForScanner);
-		F(fileForScanner);
+
+		node_t* cSubTree = F(fileForScanner);
+		CNode->left = cSubTree; // Attach to node c as left child.
 	} else {
 		cerr << "Error from non-terminal C. Token involved: " << parserTokenObject.tokenInstance << " on line " << parserTokenObject.lineNumber << endl;
-		exit(1);
 	}
+	return CNode;
 }
 
 node_t* D(istream &fileForScanner) {
+	node_t* DNode = GetNewNode("D", 1, {});
+
 	if (parserTokenObject.tokenInstance == "$") {
+		DNode->stringsSeen.push_back(parserTokenObject.tokenInstance);
 		parserTokenObject = FADriver(fileForScanner); // Consume $
-		F(fileForScanner);
+		node_t* dSubTree = F(fileForScanner);
+		DNode->left = dSubTree;
 	} else {
 		cerr << "Error from non-terminal D. Token involved: " << parserTokenObject.tokenInstance << " on line " << parserTokenObject.lineNumber << endl;
-		exit(1);
 	}
+	return DNode;
 }
 
 node_t* E(istream &fileForScanner) {
+	node_t* ENode = GetNewNode("E", 1, {});
 
 	if (parserTokenObject.tokenInstance == "'") {
+		ENode->stringsSeen.push_back(parserTokenObject.tokenInstance);
 		parserTokenObject = FADriver(fileForScanner); // Consume '
-		F(fileForScanner);
-		F(fileForScanner);
-		F(fileForScanner);
-		B(fileForScanner);
+		
+		node_t* fSubTree1 = F(fileForScanner);
+		node_t* fSubTree2 = F(fileForScanner);
+		node_t* fSubTree3 = F(fileForScanner);
+		node_t* bSubTree = B(fileForScanner);
+
+		ENode->left = fSubTree1;
+		fSubTree1->right = fSubTree2;
+		fSubTree2->right = fSubTree3;
+		fSubTree3->right = bSubTree;
+		
 	} else {
 		cerr << "Error from non-terminal E(). Token involved: " << parserTokenObject.tokenInstance << " on line " << parserTokenObject.lineNumber << endl;
-		exit(1);
 	}
+	return ENode;
 }
 
 node_t* F(istream &fileForScanner) {
+	node_t* FNode = GetNewNode("F", 1, {});
+
 	if (parserTokenObject.tokenID == t2Tk) {
+		FNode->stringsSeen.push_back(parserTokenObject.tokenInstance);
 		parserTokenObject = FADriver(fileForScanner);
-		return;
+
 	} else if (parserTokenObject.tokenID == t3Tk) {
+		FNode->stringsSeen.push_back(parserTokenObject.tokenInstance);
 		parserTokenObject = FADriver(fileForScanner);
-		return;
+
 	} else if (parserTokenObject.tokenInstance == "&") {
+		FNode->stringsSeen.push_back(parserTokenObject.tokenInstance);
 		parserTokenObject = FADriver(fileForScanner);
-		F(fileForScanner);
-		F(fileForScanner);
+
+		node_t* fSubTree1 = F(fileForScanner);
+		node_t* fSubTree2 = F(fileForScanner);
+
+		FNode->left = fSubTree1;
+		fSubTree1->right =  fSubTree2;
 	} else {
 		cerr << "Error from non-terminal F(). Token involved: " << parserTokenObject.tokenInstance << " on line " << parserTokenObject.lineNumber << endl;
-		exit(1);
 	}
+	return FNode;
 
 }
 
 node_t* G(istream &fileForScanner) {
+	node_t* GNode = GetNewNode("G", 1, {});
+
 	if (parserTokenObject.tokenID == t2Tk) {
+		GNode->stringsSeen.push_back(parserTokenObject.tokenInstance);
 		parserTokenObject = FADriver(fileForScanner);
+
 		if (parserTokenObject.tokenInstance == "%") {
+			GNode->stringsSeen.push_back(parserTokenObject.tokenInstance);
 			parserTokenObject = FADriver(fileForScanner); // Consume %
-			F(fileForScanner);
+			//F(fileForScanner);
+			node_t* fSubTree = F(fileForScanner);
+
+			GNode->left = fSubTree;
 		} else {
 			cerr << "Error from non-terminal G. Token involved: " << parserTokenObject.tokenInstance << " on line " << parserTokenObject.lineNumber << endl;
-			exit(1);
 		}
 	}
+	return GNode;
 }
 
 
