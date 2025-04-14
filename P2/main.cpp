@@ -11,6 +11,7 @@
 #include "node.h"
 #include "traversals.h"
 #include "parser.h"
+#include "testTree.h"
 
 using namespace std;
 
@@ -106,10 +107,12 @@ int main(int argc, char* argv[]){
 
 		// <----------------------------Parser Code-------------------------------------------->
 		ifstream fileForScanner(inputFile);
-		parser(fileForScanner); // Call parser.
+		node_t* parserRootNode = parser(fileForScanner); // Call parser.
 		fileForScanner.close();	
-				
 
+		testTreePrint(parserRootNode, 0);
+				
+		
 	} else if(argc == 1) { // Read from keyboard until simulated keyboard EOF
 		// Read input into temporary file, after which the rest of the program always processes file input.
 		ofstream tempFileNameCreate("p1TemporaryFile");
