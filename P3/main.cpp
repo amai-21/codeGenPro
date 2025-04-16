@@ -12,6 +12,7 @@
 #include "traversals.h"
 #include "parser.h"
 #include "testTree.h"
+#include "staticSemantics.h"
 
 using namespace std;
 

@@ -22,6 +22,7 @@ node_t* parser(istream &fileForScanner){
 	} else {
 		cout << "We encountered an error. " << parserTokenObject.tokenInstance << " " << parserTokenObject.lineNumber << endl;
 	}
+
 	return root;
 }
 /*
@@ -41,15 +42,10 @@ node_t* parser(istream &fileForScanner){
 node_t* S(istream &fileForScanner){
 	node_t* SNode = GetNewNode("S", 1, {});
 
-	//SNode->left = A(fileForScanner); // Processing A as first child.
-	//SNode->stringsSeen.push_back("A");
 	node_t* ANode = A(fileForScanner);
 	SNode->left = ANode;
 
 	if (parserTokenObject.tokenInstance == "(") { // consume (
-//		SNode->stringsSeen.push_back(parserTokenObject.tokenInstance); // Store ( in node.
-//		parserTokenObject = FADriver(fileForScanner); // Process (
-
 		// Process (
 		node_t* leftParenNode = GetNewNode("T1Tk", 1, {parserTokenObject.tokenInstance});
 		ANode->right = leftParenNode; 
@@ -61,13 +57,9 @@ node_t* S(istream &fileForScanner){
 
 		leftParenNode->right = bSubTree1;
 
-
-
 		node_t* bSubTree2 = B(fileForScanner); // next child.
 		bSubTree1->right = bSubTree2;
 
-
-	//	bSubTree1->right = bSubTree2;
 		if (parserTokenObject.tokenInstance == ")") {
 			node_t* rightParenNode = GetNewNode("T1Tk", 1, {parserTokenObject.tokenInstance});
 			bSubTree2->right = rightParenNode;
@@ -106,7 +98,6 @@ node_t* A(istream &fileForScanner) {
 		}	
 	} else { // Predicts A -> empty.
 		ANode->stringsSeen.push_back("empty");
-		//return NULL;
 		return ANode;
 	}
 }
