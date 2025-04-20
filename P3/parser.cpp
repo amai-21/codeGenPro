@@ -157,11 +157,13 @@ node_t* C(istream &fileForScanner) {
 	node_t* CNode = GetNewNode("C", 1, {});
 
 	if (parserTokenObject.tokenInstance == "#") {
+		CNode->stringsSeen.push_back(parserTokenObject.tokenInstance);
 		node_t* poundNode = GetNewNode("t1", 1, {parserTokenObject.tokenInstance});
 		CNode->left = poundNode;
 		parserTokenObject = FADriver(fileForScanner);
 
 		if (parserTokenObject.tokenID == t2Tk) {
+			CNode->stringsSeen.push_back(parserTokenObject.tokenInstance);
 			node_t* t2Node = GetNewNode("t2", 1, {parserTokenObject.tokenInstance});
 			CNode->right = t2Node;
 			parserTokenObject = FADriver(fileForScanner);

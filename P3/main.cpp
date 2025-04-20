@@ -110,9 +110,13 @@ int main(int argc, char* argv[]){
 		ifstream fileForScanner(inputFile);
 		node_t* parserRootNode = parser(fileForScanner); // Call parser.
 		fileForScanner.close();	
+		
+		// testTreePrint(parserRootNode, 0);
+		
 
-		testTreePrint(parserRootNode, 0);
-				
+		// <-----------------------------Invoking Static Semantics------------------------------>
+		checkStaticSemantics(parserRootNode);		
+		printSymbolTable();
 		
 	} else if(argc == 1) { // Read from keyboard until simulated keyboard EOF
 		// Read input into temporary file, after which the rest of the program always processes file input.
@@ -198,8 +202,17 @@ int main(int argc, char* argv[]){
 		//testScanner(fileForScanner);
 		//fileForScanner.close();
 		// testScanner(tempFileNameRead);
-		parser(tempFileNameRead); 
-		tempFileNameRead.close();	
+	//	parser(tempFileNameRead); 
+	//	tempFileNameRead.close();	
+
+		// <----------------------------------Parser Code---------------------->
+		node_t* parserRootNode = parser(tempFileNameRead); // Call parser and get the tree.
+	       	tempFileNameRead.close();
+
+		// <-----------------------Static Semantics Code----------------------->
+		checkStaticSemantics(parserRootNode);
+		printSymbolTable();
+
 
 	} else if(argc > 2) { // If user input 3 or more strings, display an error:
 		cout << "P1 ";
