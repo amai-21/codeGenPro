@@ -1,6 +1,7 @@
 // parser.cpp
  
 #include <iostream>
+#include <fstream>
 #include "parser.h"
 #include "scanner.h"
 #include "token.h"
@@ -9,7 +10,7 @@ using namespace std;
 
 tokenStruct parserTokenObject; // Declare global parserTokenObject for enduring values throughout each nonterminal calls.
 
-node_t* parser(istream &fileForScanner){
+node_t* parser(istream &fileForScanner, ofstream &secondFile){
 
 	node_t* root;
 	parserTokenObject = FADriver(fileForScanner);

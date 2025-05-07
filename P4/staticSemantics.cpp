@@ -1,6 +1,5 @@
 // staticSemantics.cpp
 #include "staticSemantics.h"
-#include <unordered_set>
 #include <iostream>
 #include <string>
 #include <cctype> // For t2 type checking.
@@ -10,24 +9,28 @@ using namespace std;
 /* Unordered set code is kindly and educationally borrowed by GeeksforGeeks.org
 	URL: https://www.geeksforgeeks.org/unordered_set-in-cpp-stl/
 */
+
+// String processing in insertFunction and verify are kindly and educationally borrowed from C++ Primer textbook.
 // Global Symbol Table:
-unordered_set<string> symbolTable;
+vector<string> symbolTable;
 
 void insertFunction(string symbolString){
-	if (symbolTable.count(symbolString) > 0) { // Check if there already is an occurrence of the string in the table.
-		cerr << "ERROR! Attempted to redefine a varaible: " << symbolString << endl;
-		exit(1);	
+	for (const string& string : symbolTable) {
+		if (string == symbolString) { // Check if there already is an occurrence of the string in the table.
+			cerr << "ERROR! Attempted to redefine a varaible: " << symbolString << endl;
+			exit(1);	
+		}
 	}
-
 	// Otherwise, insert the symbolString
-	symbolTable.insert(symbolString); 
+	symbolTable.push_back(symbolString); 
 }
 
 bool verify(string symbolString){
-	if (symbolTable.count(symbolString) > 0) { // If the string is already in the container, return true.
-		return true;
+	for (const string& string : symbolTable) {
+		if (string == symbolString) { // If the string is already in the container, return true.
+			return true;
+		}
 	}
-
 	return false; // Otherwise, return false.
 }
  

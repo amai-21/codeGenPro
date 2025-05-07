@@ -3,6 +3,7 @@
 #define PARSER_H
 
 #include <iostream>
+#include <fstream>
 #include "node.h"
 #include "buildTree.h"
 
@@ -10,7 +11,7 @@ using namespace std;
 
 // void testScanner(istream &fileForScanner);
 
-node_t* parser(istream &fileForScanner);
+node_t* parser(istream &fileForScanner, ofstream &secondFile);
 
 // BNF nonterminals as functions: 
 

@@ -3,11 +3,11 @@
 #define STATICSEMANTICS_H
 
 #include <string>
-#include <unordered_set>
+#include <vector>
 #include "node.h"
 using namespace std;
 
-extern unordered_set<string> symbolTable;
+extern vector<string> symbolTable;
 
 void insertFunction(string symbolString);
 bool verify(string symbolString);

@@ -108,19 +108,33 @@ int main(int argc, char* argv[]){
 
 		// <----------------------------Parser Code-------------------------------------------->
 		ifstream fileForScanner(inputFile);
-		node_t* parserRootNode = parser(fileForScanner); // Call parser.
-		fileForScanner.close();	
+//		node_t* parserRootNode = parser(fileForScanner); // Call parser.
+//		fileForScanner.close();	
 		
 		// testTreePrint(parserRootNode, 0);
 		
 
 		// <-----------------------------Invoking Static Semantics------------------------------>
-		checkStaticSemantics(parserRootNode);		
-		printSymbolTable();
 		
+		//checkStaticSemantics(parserRootNode);		
+		// printSymbolTable();
+	
+		//<----------------------------------Generate Assembly Code File ----------------------->
+		string assemblyCodeGenerationFile = inputFile + ".asm";
+		ofstream assemblyFile(assemblyCodeGenerationFile);
+		node_t* rootNode4AssemblyFile = parser(fileForScanner, assemblyFile);
+
+		checkStaticSemantics(rootNode4AssemblyFile);
+
+		fileForScanner.close();
+		assemblyFile.close();
+		
+		printSymbolTable();
+
+
 	} else if(argc == 1) { // Read from keyboard until simulated keyboard EOF
 		// Read input into temporary file, after which the rest of the program always processes file input.
-		ofstream tempFileNameCreate("p1TemporaryFile");
+		ofstream tempFileNameCreate("p4TemporaryFile");
 		
 		string keyboardReadingText;
 		cout << "Enter a string. To stop, please press 'CTRL + D': ";
@@ -146,7 +160,7 @@ int main(int argc, char* argv[]){
 
 		tempFileNameCreate.close();
 		ifstream tempFileNameRead;
-		tempFileNameRead.open("p1TemporaryFile");	
+		tempFileNameRead.open("p4TemporaryFile");	
 
 		// list of strings already seen:
 		vector<string> stringsSeen;
@@ -176,21 +190,21 @@ int main(int argc, char* argv[]){
 		const string::size_type treeLevel = 0;
 		// Pre Order Traversal Call:
 		//cout << "Preorder traversal: <------------------------------------------>" << endl;
-		string reNamePreOrderFile = "p1TemporaryFile.preorder";
+		string reNamePreOrderFile = "p4TemporaryFile.preorder";
 		ofstream p1FilePreOrder(reNamePreOrderFile);
 		traversePreOrder(root, treeLevel, p1FilePreOrder);
 		p1FilePreOrder.close();
 
 		// Post Order Traversal Call:
 		//cout << "Postorder traversal: <------------------------------------------->" << endl;
-		string reNamePostOrderFile = "p1TemporaryFile.postorder";
+		string reNamePostOrderFile = "p4TemporaryFile.postorder";
 	       	ofstream p1FilePostOrder(reNamePostOrderFile);
 		traversePostOrder(root, treeLevel, p1FilePostOrder);
 		p1FilePostOrder.close();	
 
 		// Level Order Traversal Call:
 		//cout << "Levelorder traversal: <-------------------------------------------->" << endl;
-		string reNameLevelOrderFile = "p1TemporaryFile.levelorder";
+		string reNameLevelOrderFile = "p4TemporaryFile.levelorder";
 	       	ofstream p1FileLevelOrder(reNameLevelOrderFile);
 		traverseLevelOrder(root, treeLevel, p1FileLevelOrder);	
 		p1FileLevelOrder.close();
@@ -206,11 +220,22 @@ int main(int argc, char* argv[]){
 	//	tempFileNameRead.close();	
 
 		// <----------------------------------Parser Code---------------------->
-		node_t* parserRootNode = parser(tempFileNameRead); // Call parser and get the tree.
-	       	tempFileNameRead.close();
-
+	//	node_t* parserRootNode = parser(tempFileNameRead); // Call parser and get the tree.
+	      // 	tempFileNameRead.close();
+	
 		// <-----------------------Static Semantics Code----------------------->
-		checkStaticSemantics(parserRootNode);
+	//	checkStaticSemantics(parserRootNode);
+	//	printSymbolTable();
+
+		string assemblyCodeGenerationFile = "p4TemporaryFile.asm";
+		ofstream assemblyFile(assemblyCodeGenerationFile);
+		node_t* rootNode4AssemblyFile = parser(tempFileNameRead, assemblyFile);
+
+		checkStaticSemantics(rootNode4AssemblyFile);
+
+		tempFileNameRead.close();
+		assemblyFile.close();
+
 		printSymbolTable();
 
 
