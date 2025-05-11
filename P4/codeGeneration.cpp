@@ -49,6 +49,19 @@ int t3_2_intVal(char* t3) {
 
 }
 
+// Helper function to safely add variable name ot list of declared variables.
+void declareVariable(string var) {
+	// Loop through each item in declaredVariables
+	for (size_t i = 0; i < declaredVariables.size(); i++) { // If variable name is already in list, exit.
+		if (declaredVariables[i] == var) {
+			return; 
+		}
+	}	
+
+	// If variable was not found in declaredVariables, add it to the end.
+	declaredVariables.push_back(var); 
+}	
+
 // Function for generating assembly code for an input program.
 void codeGenerator(node_t* node, ofstream& inputFile){
 		
@@ -83,7 +96,7 @@ void codeGenerator(node_t* node, ofstream& inputFile){
 		inputFile << "LOAD 0\n";
 		inputFile << "STORE " << pID << endl;
 		
-		declaredVariables.push_back(pID); 
+		declareVariable(pID);
 
 		return;
 	} else if (node-> data == "A" && node->stringsSeen[0] == "empty") { // Do nothing if we encounter epsilon.
@@ -101,7 +114,7 @@ void codeGenerator(node_t* node, ofstream& inputFile){
 		inputFile << "READ " << pID << endl;
 		inputFile << "LOAD " << pID << endl;
 
-		declaredVariables.push_back(pID);
+		declareVariable(pID);	
 		return;
 
 
@@ -112,9 +125,8 @@ void codeGenerator(node_t* node, ofstream& inputFile){
 		codeGenerator(node->left, inputFile); // Evaluate F in the accumulator.
 
 		inputFile << "MULT -1" << endl;
-		inputFile << "STORE " << temp << endl;
 	
-		declaredVariables.push_back(temp);
+		declareVariable(temp);
 		return;	
 	}	
 
@@ -125,11 +137,10 @@ void codeGenerator(node_t* node, ofstream& inputFile){
 		string temp = "temp0";
 
 		codeGenerator(node->left, inputFile);
-
+		inputFile << "STORE " << temp << endl;
 		inputFile << "WRITE " << temp << endl;
 
-		declaredVariables.push_back(temp);
-
+		declareVariable(temp);
 		return;
 	}
 
@@ -139,9 +150,9 @@ void codeGenerator(node_t* node, ofstream& inputFile){
 		string secondF = "F2";
 		string thirdF = "F3";
 
-		declaredVariables.push_back(firstF);
-		declaredVariables.push_back(secondF);
-		declaredVariables.push_back(thirdF);
+		declareVariable(firstF);
+		declareVariable(secondF);
+		declareVariable(thirdF);
 
 		// Evaluate first F and store it.
 		codeGenerator(node->left, inputFile);
@@ -199,13 +210,12 @@ void codeGenerator(node_t* node, ofstream& inputFile){
 			//Generate code for first F and store result in temp1.
 			codeGenerator(firstF, inputFile);
 	 		
-			inputFile << "STORE " << temp1 << endl;
-			declaredVariables.push_back(temp1);			
-
+			inputFile << "STORE " << temp1 << endl;	
+			declareVariable(temp1);
 			// Generate code for second F. Add first result to the accumulator and then store it to second temporary variable.
 			codeGenerator(secondF, inputFile);
 			inputFile << "STORE " << temp2 << endl;
-			declaredVariables.push_back(temp2);
+			declareVariable(temp2);
 
 			inputFile << "LOAD " << temp1 << endl;
 			inputFile << "ADD " << temp2 << endl;
@@ -227,7 +237,6 @@ void codeGenerator(node_t* node, ofstream& inputFile){
 		codeGenerator(FResult, inputFile); 
 
 		inputFile << "STORE " << pID << endl;
-
 
 		return;
 	}

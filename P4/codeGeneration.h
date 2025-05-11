@@ -20,4 +20,6 @@ int t3_2_intVal(char* t2ID);
 
 void codeGenerator(node_t* root, ofstream& inputFile);
 
+void declareVariable(string var);
+
 #endif

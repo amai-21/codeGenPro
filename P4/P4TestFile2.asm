@@ -7,4 +7,3 @@ WRITE temp0
 STOP
 p39 0
 temp0 0
-temp0 0

@@ -2,6 +2,7 @@ LOAD 0
 STORE p5
 LOAD -10
 STORE p5
+STORE temp0
 WRITE temp0
 STOP
 p5 0
