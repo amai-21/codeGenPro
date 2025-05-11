@@ -4,6 +4,12 @@
 
 #include "node.h"
 #include <fstream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+extern vector<string> declaredVariables;
 
 inline void fatal(const char* string);
 

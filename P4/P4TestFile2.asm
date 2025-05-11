@@ -1,0 +1,10 @@
+READ p39
+LOAD p39
+LOAD p39
+MULT -1
+STORE temp0
+WRITE temp0
+STOP
+p39 0
+temp0 0
+temp0 0

@@ -13,6 +13,7 @@
 #include "parser.h"
 #include "testTree.h"
 #include "staticSemantics.h"
+#include "codeGeneration.h"
 
 using namespace std;
 
@@ -126,6 +127,15 @@ int main(int argc, char* argv[]){
 
 		checkStaticSemantics(rootNode4AssemblyFile);
 
+		codeGenerator(rootNode4AssemblyFile, assemblyFile); // Generate assembly code.
+
+		// Write STOP and declare outputted variables.
+		assemblyFile << "STOP" << endl;
+
+		for (const string& var: declaredVariables) {
+			assemblyFile << var << " 0" << endl;
+		}	
+
 		fileForScanner.close();
 		assemblyFile.close();
 		
@@ -224,14 +234,19 @@ int main(int argc, char* argv[]){
 	      // 	tempFileNameRead.close();
 	
 		// <-----------------------Static Semantics Code----------------------->
-	//	checkStaticSemantics(parserRootNode);
-	//	printSymbolTable();
 
 		string assemblyCodeGenerationFile = "p4TemporaryFile.asm";
 		ofstream assemblyFile(assemblyCodeGenerationFile);
 		node_t* rootNode4AssemblyFile = parser(tempFileNameRead, assemblyFile);
 
 		checkStaticSemantics(rootNode4AssemblyFile);
+
+		codeGenerator(rootNode4AssemblyFile, assemblyFile);
+
+		assemblyFile << "STOP" << endl;
+		for (const string& var : declaredVariables) {
+			assemblyFile << var << " 0" << endl;
+		}
 
 		tempFileNameRead.close();
 		assemblyFile.close();
