@@ -84,7 +84,6 @@ int main(int argc, char* argv[]){
 		//sstream code kindly and educationally borrowed from Geeksforgeeks.com: https://www.geeksforgeeks.org/stringstream-c-applications/
 		
 
-		/*
 		// Pre Order Traversal call:
 		//cout << "Preorder traversal: <---------------------------------------------->" << endl; 
 		const string::size_type treeLevel = 0;
@@ -107,7 +106,7 @@ int main(int argc, char* argv[]){
 	       	traverseLevelOrder(root, treeLevel, p1FileLevelOrder);	
 		p1FileLevelOrder.close();
 
-*/
+
 		// <----------------------------Parser Code-------------------------------------------->
 		ifstream fileForScanner(inputFile);
 //		node_t* parserRootNode = parser(fileForScanner); // Call parser.
@@ -199,7 +198,6 @@ int main(int argc, char* argv[]){
 		}	
 		
 		const string::size_type treeLevel = 0;
-		/*
 		// Pre Order Traversal Call:
 		//cout << "Preorder traversal: <------------------------------------------>" << endl;
 		string reNamePreOrderFile = "p4TemporaryFile.preorder";
@@ -220,7 +218,7 @@ int main(int argc, char* argv[]){
 	       	ofstream p1FileLevelOrder(reNameLevelOrderFile);
 		traverseLevelOrder(root, treeLevel, p1FileLevelOrder);	
 		p1FileLevelOrder.close();
-		*/
+
 		//tempFileNameRead.close();
 
 		/*--------------------------Calling testScanner To Invoke The Scanner--------------------------------------*/
