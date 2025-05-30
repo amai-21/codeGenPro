@@ -28,6 +28,7 @@
 
 # How to Run Locally
 1.) **Clone the repository:**
+
 	git clone https://github.com/amai-21/codeGenPro.git
 
 2.) **Navigate to the P4 Directory**
