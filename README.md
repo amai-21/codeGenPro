@@ -32,15 +32,19 @@
 	git clone https://github.com/amai-21/codeGenPro.git
 
 2.) **Navigate to the P4 Directory**
+
 	cd codeGenPro/P4
 
 3.) **Compile the project**
+
 	make
 
 4.) **Run the project**
+
 	./P4 [filename]
 
 5.) **Check the output file with UMSL's virtual machine**
+
 	./virtMach [filename].asm 
 
 ## License
