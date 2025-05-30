@@ -198,7 +198,7 @@ int main(int argc, char* argv[]){
 			}
 		}	
 		
-		const string::size_type treeLevel = 0;
+//		const string::size_type treeLevel = 0;
 		/*
 		// Pre Order Traversal Call:
 		//cout << "Preorder traversal: <------------------------------------------>" << endl;
