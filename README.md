@@ -45,7 +45,9 @@
 
 5.) **Check the output file with UMSL's virtual machine**
 
-	./virtMach [filename].asm 
+	- ./virtMach [filename].asm <--------This only works if you are running CodeGenPro on Linux or WSL.----------->
+
+    - Copy the contents of your [filename].asm file, paste it into UMSL's assembly interpreter (https://comp.umsl.edu/assembler/), and run it. <----------Do this if you are using Windows----------------->
 
 ## License
 
